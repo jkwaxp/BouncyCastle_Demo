@@ -20,3 +20,10 @@ bc算法库(bouncycastle)的二次封装，便捷API调用算法函数
 - [SM2证书](src/test/java/alg/bc/nation/GmCertTest.java)
     
 详细的调用方式见对应的测试类    
+
+# GUI 部分界面
+
+
+![SM2](https://github.com/jkwaxp/BouncyCastle_Demo/tree/main/images/sm2.jpg)
+
+![SM3](https://github.com/jkwaxp/BouncyCastle_Demo/tree/main/images/sm3.jpg)
