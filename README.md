@@ -24,6 +24,6 @@ bc算法库(bouncycastle)的二次封装，便捷API调用算法函数
 # GUI 部分界面
 
 
-![SM2](https://github.com/jkwaxp/BouncyCastle_Demo/tree/main/images/sm2.jpg)
+![SM2](https://raw.githubusercontent.com/jkwaxp/BouncyCastle_Demo/refs/heads/main/images/sm2.jpg)
 
-![SM3](https://github.com/jkwaxp/BouncyCastle_Demo/tree/main/images/sm3.jpg)
+![SM3](https://raw.githubusercontent.com/jkwaxp/BouncyCastle_Demo/refs/heads/main/images/sm3.jpg)
