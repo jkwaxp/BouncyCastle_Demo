@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="alg.bc.gui.view.TabSm4">
-  <grid id="27dc6" binding="sm4Panel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="alg.bc.gui.view.TabCert">
+  <grid id="27dc6" binding="certPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -20,12 +20,12 @@
           <grid id="eb1ad" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="加密"/>
+              <tabbedpane title="证书生成"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <nested-form id="enc01" form-file="alg/bc/gui/view/viewSm4/ViewSm4Encrypt.form" binding="encryptForm">
+              <nested-form id="gen01" form-file="alg/bc/gui/view/viewCert/ViewCertGenerate.form" binding="generateForm">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -35,27 +35,12 @@
           <grid id="4a893" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="解密"/>
+              <tabbedpane title="证书查看"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <nested-form id="dec02" form-file="alg/bc/gui/view/viewSm4/ViewSm4Decrypt.form" binding="decryptForm">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </nested-form>
-            </children>
-          </grid>
-          <grid id="dcca" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <tabbedpane title="CMAC"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <nested-form id="cmc03" form-file="alg/bc/gui/view/viewSm4/ViewSm4Cmac.form" binding="cmacForm">
+              <nested-form id="view02" form-file="alg/bc/gui/view/viewCert/ViewCertView.form" binding="viewForm">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>

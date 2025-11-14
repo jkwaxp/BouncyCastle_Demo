@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="alg.bc.gui.view.viewCert.ViewCertGenerate">
+  <grid id="27dc6" binding="certGeneratePanel" layout-manager="GridLayoutManager" row-count="8" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
+    <constraints>
+      <xy x="20" y="20" width="700" height="600"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <!-- 公钥输入 -->
+      <component id="p1" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="SM2公钥(HEX)："/>
+        </properties>
+      </component>
+      <scrollpane id="p2">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="500" height="80"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="p3" class="javax.swing.JTextArea" binding="pubKeyTextArea">
+            <constraints/>
+            <properties>
+              <lineWrap value="true"/>
+              <rows value="3"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+
+      <!-- 私钥输入 -->
+      <component id="k1" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="SM2私钥(HEX)："/>
+        </properties>
+      </component>
+      <scrollpane id="k2">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="500" height="80"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="k3" class="javax.swing.JTextArea" binding="prvKeyTextArea">
+            <constraints/>
+            <properties>
+              <lineWrap value="true"/>
+              <rows value="3"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+
+      <!-- 主题输入 -->
+      <component id="s1" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="主题(CN)："/>
+        </properties>
+      </component>
+      <component id="s2" class="javax.swing.JTextField" binding="subjectTextField">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="CN=Test"/>
+        </properties>
+      </component>
+
+      <!-- 空行 -->
+      <vspacer id="sp1">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="10"/>
+          </grid>
+        </constraints>
+      </vspacer>
+
+      <!-- 按钮行 -->
+      <component id="b1" class="javax.swing.JButton" binding="generateCsrButton">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="生成CSR"/>
+        </properties>
+      </component>
+      <component id="b2" class="javax.swing.JButton" binding="generateSelfSignedButton">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="生成自签名证书"/>
+        </properties>
+      </component>
+      <component id="b3" class="javax.swing.JButton" binding="resetButton">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="重置"/>
+        </properties>
+      </component>
+
+      <!-- 空行 -->
+      <vspacer id="sp2">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="10"/>
+          </grid>
+        </constraints>
+      </vspacer>
+
+      <!-- 结果输出 -->
+      <component id="r1" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="结果输出："/>
+        </properties>
+      </component>
+      <scrollpane id="r2">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="500" height="200"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="r3" class="javax.swing.JTextArea" binding="resultTextArea">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+              <lineWrap value="true"/>
+              <rows value="10"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+
+      <!-- 填充空白区域 -->
+      <vspacer id="sp3">
+        <constraints>
+          <grid row="7" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+    </children>
+  </grid>
+</form>
