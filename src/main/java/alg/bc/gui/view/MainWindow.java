@@ -112,4 +112,20 @@ public class MainWindow {
         return mainPanel;
     }
 
+    public void applyNativeImageUiFallbacks() {
+        // Native-image under Windows often has issues with TAB placement other than TOP
+        forceTopTabs(mainPanel);
+    }
+
+    private void forceTopTabs(Component component) {
+        if (component instanceof JTabbedPane) {
+            ((JTabbedPane) component).setTabPlacement(JTabbedPane.TOP);
+        }
+        if (component instanceof Container) {
+            for (Component child : ((Container) component).getComponents()) {
+                forceTopTabs(child);
+            }
+        }
+    }
+
 }

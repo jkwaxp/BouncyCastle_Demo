@@ -1,0 +1,40 @@
+{
+  "resources":{
+  "includes":[{
+    "pattern":".*\\.form$"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.lang.System$LoggerFinder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.time.zone.ZoneRulesProvider\\E"
+  }, {
+    "pattern":"\\Qfontconfig.bfc\\E"
+  }, {
+    "pattern":"\\Qfontconfig.properties\\E"
+  }, {
+    "pattern":"alg/bc/gui/view/.*\\.form"
+  }, {
+    "pattern":"alg/bc/gui/view/viewCert/.*\\.form"
+  }, {
+    "pattern":"alg/bc/gui/view/viewSm2/.*\\.form"
+  }, {
+    "pattern":"alg/bc/gui/view/viewSm3/.*\\.form"
+  }, {
+    "pattern":"alg/bc/gui/view/viewSm4/.*\\.form"
+  }, {
+    "pattern":"alg/bc/gui/view/viewZuc/.*\\.form"
+  }, {
+    "pattern":"java.base:\\Qjdk/internal/icu/impl/data/icudt67b/nfkc.nrm\\E"
+  }, {
+    "pattern":"java.datatransfer:\\Qsun/datatransfer/resources/flavormap.properties\\E"
+  }]},
+  "bundles":[{
+    "name":"com.sun.swing.internal.plaf.basic.resources.basic",
+    "classNames":["com.sun.swing.internal.plaf.basic.resources.basic", "com.sun.swing.internal.plaf.basic.resources.basic_zh_CN"]
+  }, {
+    "name":"com.sun.swing.internal.plaf.metal.resources.metal",
+    "classNames":["com.sun.swing.internal.plaf.metal.resources.metal", "com.sun.swing.internal.plaf.metal.resources.metal_zh_CN"]
+  }, {
+    "name":"sun.awt.resources.awt",
+    "classNames":["sun.awt.resources.awt", "sun.awt.resources.awt_zh_CN"]
+  }]
+}

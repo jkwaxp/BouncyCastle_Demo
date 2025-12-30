@@ -11,6 +11,8 @@
     <properties>
         <maven.compiler.release>8</maven.compiler.release>
         <bc.version>1.80</bc.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -47,21 +49,39 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.form</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
     <profiles>
+        <!-- 建议使用 LTS（17/21）来构建 native-image：Java 25 的 Swing/AWT 字体链路目前非常不稳定 -->
         <profile>
-            <id>release.native</id>
+            <id>release.native.lts</id>
             <build>
                 <finalName>bc-tool-${project.version}</finalName>
                 <plugins>
@@ -89,6 +109,7 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
@@ -97,14 +118,6 @@
                         <configuration>
                             <mainClass>alg.bc.gui.Boot</mainClass>
                             <imageName>bc-tool</imageName>
-                            <buildArgs>
-                                <buildArg>-H:+AddAllCharsets</buildArg>
-                                <buildArg>-H:Log=registerClass=debug</buildArg>
-                                <buildArg>-Ob</buildArg>
-                                <buildArg>--initialize-at-build-time=org.slf4j</buildArg>
-                                <buildArg>--report-unsupported-elements-at-runtime</buildArg>
-                                <buildArg>--enable-native-access=ALL-UNNAMED</buildArg>
-                            </buildArgs>
                         </configuration>
                         <executions>
                             <execution>
@@ -113,6 +126,104 @@
                                     <goal>compile-no-fork</goal>
                                 </goals>
                                 <phase>package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- 把 native-image 产物整理成干净的发布目录：dist/bc-tool/bin 下只有 exe + dll -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>stage-native-dist</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="${project.build.directory}/bc-tool"/>
+                                        <copy todir="${project.build.directory}/bc-tool" overwrite="true">
+                                            <fileset dir="${project.build.directory}">
+                                                <include name="bc-tool.exe"/>
+                                                <include name="*.dll"/>
+                                            </fileset>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- 推荐：用 jpackage 生成 Windows app-image（自带 bc-tool.exe 启动器），UI 与 jar 保持一致 -->
+        <profile>
+            <id>release.jpackage</id>
+            <build>
+                <finalName>bc-tool-${project.version}</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.6.0</version>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>alg.bc.gui.Boot</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <executions>
+                            <execution>
+                                <id>jpackage-app-image</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- 需要使用 JDK 14+（建议 17/21 LTS）运行 Maven，才能找到 jpackage -->
+                                    <!-- 优先使用环境变量 GRAALVM_HOME（你当前就是用它来跑 native-image 的） -->
+                                    <executable>${env.GRAALVM_HOME}/bin/jpackage</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>--type</argument>
+                                        <argument>app-image</argument>
+                                        <argument>--dest</argument>
+                                        <argument>${project.build.directory}/jpackage</argument>
+                                        <argument>--name</argument>
+                                        <argument>bc-tool</argument>
+                                        <argument>--input</argument>
+                                        <argument>${project.build.directory}</argument>
+                                        <argument>--main-jar</argument>
+                                        <argument>bc-tool-${project.version}-jar-with-dependencies.jar</argument>
+                                        <argument>--main-class</argument>
+                                        <argument>alg.bc.gui.Boot</argument>
+                                        <argument>--java-options</argument>
+                                        <argument>-Dfile.encoding=UTF-8</argument>
+                                    </arguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
