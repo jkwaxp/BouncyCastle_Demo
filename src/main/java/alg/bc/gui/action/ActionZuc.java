@@ -3,6 +3,7 @@ package alg.bc.gui.action;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Validate;
 import alg.bc.gui.view.TabZuc;
 import alg.bc.nation.Zuc;
 
@@ -102,9 +103,16 @@ public class ActionZuc implements ActionListener {
             String inputStr = tabZuc.getCipherForm().getInputTextArea().getText();
             String inputEncode = tabZuc.getCipherForm().getInputEncodeComboBox().getSelectedItem().toString();
 
-            byte[] key = ByteUtil.str2Bytes(keyStr, keyEncode);
-            byte[] iv = ByteUtil.str2Bytes(ivStr, ivEncode);
-            byte[] input = ByteUtil.str2Bytes(inputStr, inputEncode);
+            byte[] key = Validate.requireBytes(keyStr, keyEncode, "密钥");
+            byte[] iv = Validate.requireBytes(ivStr, ivEncode, "IV");
+            byte[] input = Validate.requireBytes(inputStr, inputEncode, "输入数据");
+            if (isZuc128) {
+                Validate.requireExactLength(key, 16, "密钥（ZUC-128）");
+                Validate.requireExactLength(iv, 16, "IV（ZUC-128）");
+            } else {
+                Validate.requireExactLength(key, 32, "密钥（ZUC-256）");
+                Validate.requireExactLength(iv, 25, "IV（ZUC-256）");
+            }
             byte[] output;
 
             // 调用对应版本的加密/解密方法（ZUC流密码，加密和解密是同一个操作）
@@ -134,9 +142,16 @@ public class ActionZuc implements ActionListener {
             String dataStr = tabZuc.getMacForm().getDataTextArea().getText();
             String dataEncode = tabZuc.getMacForm().getDataEncodeComboBox().getSelectedItem().toString();
 
-            byte[] key = ByteUtil.str2Bytes(keyStr, keyEncode);
-            byte[] iv = ByteUtil.str2Bytes(ivStr, ivEncode);
-            byte[] data = ByteUtil.str2Bytes(dataStr, dataEncode);
+            byte[] key = Validate.requireBytes(keyStr, keyEncode, "密钥");
+            byte[] iv = Validate.requireBytes(ivStr, ivEncode, "IV");
+            byte[] data = Validate.requireBytes(dataStr, dataEncode, "数据");
+            if (isZuc128) {
+                Validate.requireExactLength(key, 16, "密钥（ZUC-128）");
+                Validate.requireExactLength(iv, 16, "IV（ZUC-128）");
+            } else {
+                Validate.requireExactLength(key, 32, "密钥（ZUC-256）");
+                Validate.requireExactLength(iv, 25, "IV（ZUC-256）");
+            }
             byte[] mac;
 
             // 调用对应版本的MAC方法

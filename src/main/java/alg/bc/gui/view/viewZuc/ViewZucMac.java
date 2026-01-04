@@ -1,6 +1,7 @@
 package alg.bc.gui.view.viewZuc;
 
 import alg.bc.gui.view.TabZuc;
+import alg.bc.gui.util.EncodeSwitchBinder;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import lombok.Data;
@@ -37,6 +38,11 @@ public class ViewZucMac {
         generateKeyButton.addActionListener(parent.getAction());
         generateIvButton.setActionCommand("generateZucIv");
         generateIvButton.addActionListener(parent.getAction());
+
+        EncodeSwitchBinder.bind(keyEncodeComboBox, keyTextArea, "密钥");
+        EncodeSwitchBinder.bind(ivEncodeComboBox, ivTextArea, "IV");
+        EncodeSwitchBinder.bind(dataEncodeComboBox, dataTextArea, "数据");
+        EncodeSwitchBinder.bind(macEncodeComboBox, macTextArea, "MAC");
 
         // ZUC版本切换监听
         zuc128RadioButton.addActionListener(e -> {

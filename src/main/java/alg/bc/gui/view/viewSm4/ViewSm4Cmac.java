@@ -1,6 +1,7 @@
 package alg.bc.gui.view.viewSm4;
 
 import alg.bc.gui.view.TabSm4;
+import alg.bc.gui.util.EncodeSwitchBinder;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import lombok.Data;
@@ -28,6 +29,10 @@ public class ViewSm4Cmac {
         resetButton.addActionListener(parent.getAction());
         generateKeyButton.setActionCommand("generateSm4Key");
         generateKeyButton.addActionListener(parent.getAction());
+
+        EncodeSwitchBinder.bind(keyEncodeComboBox, keyTextArea, "密钥");
+        EncodeSwitchBinder.bind(dataEncodeComboBox, dataTextArea, "数据");
+        EncodeSwitchBinder.bind(macEncodeComboBox, macTextArea, "MAC");
     }
 
     {

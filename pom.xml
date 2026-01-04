@@ -39,7 +39,6 @@
             <artifactId>bcpkix-jdk18on</artifactId>
             <version>${bc.version}</version>
         </dependency>
-
         <!-- IntelliJ IDEA GUI Designer -->
         <dependency>
             <groupId>com.intellij</groupId>
@@ -73,6 +72,17 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- 方便本地直接启动 Swing：mvn exec:java -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <mainClass>alg.bc.gui.Boot</mainClass>
+                    <!-- Swing/AWT 会启动非 daemon 线程；这里不要清理线程，避免窗口一闪而过 -->
+                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
                 </configuration>
             </plugin>
         </plugins>

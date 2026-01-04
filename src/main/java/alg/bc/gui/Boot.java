@@ -2,6 +2,7 @@ package alg.bc.gui;
 
 import alg.bc.gui.util.CompUtil;
 import alg.bc.gui.view.MainWindow;
+import alg.bc.nation.sm9.Sm9JniLoader;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -18,10 +19,11 @@ import java.nio.file.StandardCopyOption;
 public class Boot {
     public static JFrame frame = null;
 
-    // GraalVM native-image: some AWT Windows native code uses JNI FindClass for these types.
+    // GraalVM native-image: some AWT Windows native code uses JNI FindClass for
+    // these types.
     // Keep them reachable so they are not removed by closed-world analysis.
     @SuppressWarnings("unused")
-    private static final Class<?>[] NATIVE_AWT_KEEPALIVE = new Class<?>[]{
+    private static final Class<?>[] NATIVE_AWT_KEEPALIVE = new Class<?>[] {
             java.awt.event.MouseWheelEvent.class,
             java.awt.event.MouseWheelListener.class
     };
@@ -35,7 +37,8 @@ public class Boot {
             ensureNativeJniKeepalive();
         }
 
-        // jar/jpackage 运行：优先系统 LAF；native-image：强制 Metal（Windows LAF 依赖大量内部 JNI/字段，native-image 下不稳定）
+        // jar/jpackage 运行：优先系统 LAF；native-image：强制 Metal（Windows LAF 依赖大量内部
+        // JNI/字段，native-image 下不稳定）
         try {
             if (isNativeImage()) {
                 UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -45,6 +48,12 @@ public class Boot {
         } catch (Exception ignored) {
         }
 
+        // 避免某些环境下 invokeLater 里的 UI 任务还没跑，main 就结束导致 JVM 直接退出
+        try {
+            java.awt.Toolkit.getDefaultToolkit();
+        } catch (Throwable ignored) {
+        }
+
         // Native-image 下：尽量显式设置可用的 CJK 字体，避免字体度量异常导致布局坍缩
         if (isNativeImage()) {
             try {
@@ -52,6 +61,12 @@ public class Boot {
                 applyFontToUiDefaults(font);
             } catch (Throwable ignored) {
             }
+        }
+
+        // 尝试预加载 SM9 JNI（不强依赖；失败也不影响启动）
+        try {
+            Sm9JniLoader.loadIfPossible();
+        } catch (Throwable ignored) {
         }
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -99,7 +114,17 @@ public class Boot {
                         });
                     }
                 } catch (Throwable t) {
-                    // ignore
+                    // IDEA / jar 运行时不要吞异常，否则会“启动即退出”且无任何提示
+                    if (!isNativeImage()) {
+                        try {
+                            t.printStackTrace();
+                        } catch (Throwable ignored) {
+                        }
+                        try {
+                            JOptionPane.showMessageDialog(null, "启动失败：\n" + t, "错误", JOptionPane.ERROR_MESSAGE);
+                        } catch (Throwable ignored) {
+                        }
+                    }
                 }
             }
         });
@@ -112,7 +137,7 @@ public class Boot {
     private static void setupNativeImageUiScaleAndDpi() {
         System.setProperty("sun.java2d.dpiaware", "true");
         // 不强行关闭渲染管线：某些环境下会导致字体度量/渲染异常
-        //（native-image 默认值更接近 jar 运行行为）
+        // （native-image 默认值更接近 jar 运行行为）
 
         // Windows 下强制用 Win32 字体管理器，并告知字体目录（对某些 native-image 版本有帮助）
         try {
@@ -151,14 +176,15 @@ public class Boot {
 
     private static Font selectNativeCjkFont(int size) {
         // 优先这些字体（命中任一即可）；找不到就回退 Dialog
-        String[] preferred = new String[]{
+        String[] preferred = new String[] {
                 "Microsoft YaHei", "微软雅黑",
                 "SimSun", "宋体",
                 "SimHei", "黑体",
                 "Microsoft JhengHei UI", "Microsoft JhengHei"
         };
         try {
-            String[] families = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+            String[] families = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
+                    .getAvailableFontFamilyNames();
             for (String want : preferred) {
                 for (String fam : families) {
                     if (fam.equalsIgnoreCase(want)) {
@@ -174,12 +200,13 @@ public class Boot {
     private static void applyFontToUiDefaults(FontUIResource font) {
         // 注意：在 Windows/Metal 下，Toolkit 初始化后可能会重新装载 LAF defaults。
         // 所以需要同时覆盖 getDefaults() 与 getLookAndFeelDefaults()，并显式覆盖核心键。
-        UIDefaults[] targets = new UIDefaults[]{
+        UIDefaults[] targets = new UIDefaults[] {
                 UIManager.getDefaults(),
                 UIManager.getLookAndFeelDefaults()
         };
         for (UIDefaults defaults : targets) {
-            if (defaults == null) continue;
+            if (defaults == null)
+                continue;
             Object[] keys = defaults.keySet().toArray();
             for (Object key : keys) {
                 if (key instanceof String && ((String) key).endsWith(".font")) {
@@ -214,7 +241,8 @@ public class Boot {
     }
 
     private static void applyFontRecursively(Component component, Font font) {
-        if (component == null || font == null) return;
+        if (component == null || font == null)
+            return;
         try {
             component.setFont(font);
         } catch (Throwable ignored) {

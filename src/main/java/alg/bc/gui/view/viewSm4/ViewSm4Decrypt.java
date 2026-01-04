@@ -1,6 +1,7 @@
 package alg.bc.gui.view.viewSm4;
 
 import alg.bc.gui.view.TabSm4;
+import alg.bc.gui.util.EncodeSwitchBinder;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import lombok.Data;
@@ -30,6 +31,11 @@ public class ViewSm4Decrypt {
         decryptButton.addActionListener(parent.getAction());
         resetButton.setActionCommand("resetForm");
         resetButton.addActionListener(parent.getAction());
+
+        EncodeSwitchBinder.bind(keyEncodeComboBox, keyTextArea, "密钥");
+        EncodeSwitchBinder.bind(cipherEncodeComboBox, cipherTextArea, "密文");
+        EncodeSwitchBinder.bind(ivEncodeComboBox, ivTextArea, "IV");
+        EncodeSwitchBinder.bind(dataEncodeComboBox, dataTextArea, "明文");
 
         // 模式切换监听（某些模式不需要IV）
         modeComboBox.addActionListener(e -> {

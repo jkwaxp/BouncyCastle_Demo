@@ -3,10 +3,9 @@ package alg.bc.gui.action;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Validate;
 import alg.bc.gui.view.TabSm4;
 import alg.bc.nation.SM4;
-import org.bouncycastle.util.encoders.Base64;
-import org.bouncycastle.util.encoders.Hex;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,8 +88,9 @@ public class ActionSm4 implements ActionListener {
             String mode = tabSm4.getEncryptForm().getModeComboBox().getSelectedItem().toString();
             String padding = tabSm4.getEncryptForm().getPaddingComboBox().getSelectedItem().toString();
 
-            byte[] key = ByteUtil.str2Bytes(keyStr, keyEncode);
-            byte[] data = ByteUtil.str2Bytes(dataStr, dataEncode);
+            byte[] key = Validate.requireBytes(keyStr, keyEncode, "密钥");
+            Validate.requireExactLength(key, 16, "密钥");
+            byte[] data = Validate.requireBytes(dataStr, dataEncode, "明文数据");
             byte[] cipher;
 
             // 根据模式和填充调用对应的加密方法
@@ -98,30 +98,36 @@ public class ActionSm4 implements ActionListener {
                 if ("PKCS7".equals(padding)) {
                     cipher = SM4.ecbEncPkcs7(key, data);
                 } else {
+                    Validate.requireBlockMultiple(data, 16, "明文数据（NoPadding）");
                     cipher = SM4.ecbEncNoPadding(key, data);
                 }
             } else {
                 // 其他模式需要IV
                 String ivStr = tabSm4.getEncryptForm().getIvTextArea().getText();
                 String ivEncode = tabSm4.getEncryptForm().getIvEncodeComboBox().getSelectedItem().toString();
-                byte[] iv = ByteUtil.str2Bytes(ivStr, ivEncode);
+                byte[] iv = Validate.requireBytes(ivStr, ivEncode, "IV");
+                // 常见长度 12/16；本工具默认生成 16 字节，故两者都允许
+                Validate.requireLengthIn(iv, new int[]{12, 16}, "IV");
 
                 if ("CBC".equals(mode)) {
                     if ("PKCS7".equals(padding)) {
                         cipher = SM4.cbcEncPkcs7(key, iv, data);
                     } else {
+                        Validate.requireBlockMultiple(data, 16, "明文数据（NoPadding）");
                         cipher = SM4.cbcEncNoPadding(key, iv, data);
                     }
                 } else if ("CFB".equals(mode)) {
                     if ("PKCS7".equals(padding)) {
                         cipher = SM4.cfbEncPkcs7(key, iv, data);
                     } else {
+                        Validate.requireBlockMultiple(data, 16, "明文数据（NoPadding）");
                         cipher = SM4.cfbEncNoPadding(key, iv, data);
                     }
                 } else if ("OFB".equals(mode)) {
                     if ("PKCS7".equals(padding)) {
                         cipher = SM4.ofbEncPkcs7(key, iv, data);
                     } else {
+                        Validate.requireBlockMultiple(data, 16, "明文数据（NoPadding）");
                         cipher = SM4.ofbEncNoPadding(key, iv, data);
                     }
                 } else if ("GCM".equals(mode)) {
@@ -150,8 +156,9 @@ public class ActionSm4 implements ActionListener {
             String mode = tabSm4.getDecryptForm().getModeComboBox().getSelectedItem().toString();
             String padding = tabSm4.getDecryptForm().getPaddingComboBox().getSelectedItem().toString();
 
-            byte[] key = ByteUtil.str2Bytes(keyStr, keyEncode);
-            byte[] cipher = ByteUtil.str2Bytes(cipherStr, cipherEncode);
+            byte[] key = Validate.requireBytes(keyStr, keyEncode, "密钥");
+            Validate.requireExactLength(key, 16, "密钥");
+            byte[] cipher = Validate.requireBytes(cipherStr, cipherEncode, "密文数据");
             byte[] data;
 
             // 根据模式和填充调用对应的解密方法
@@ -159,30 +166,35 @@ public class ActionSm4 implements ActionListener {
                 if ("PKCS7".equals(padding)) {
                     data = SM4.ecbDecPkcs7(key, cipher);
                 } else {
+                    Validate.requireBlockMultiple(cipher, 16, "密文数据（NoPadding）");
                     data = SM4.ecbDecNoPadding(key, cipher);
                 }
             } else {
                 // 其他模式需要IV
                 String ivStr = tabSm4.getDecryptForm().getIvTextArea().getText();
                 String ivEncode = tabSm4.getDecryptForm().getIvEncodeComboBox().getSelectedItem().toString();
-                byte[] iv = ByteUtil.str2Bytes(ivStr, ivEncode);
+                byte[] iv = Validate.requireBytes(ivStr, ivEncode, "IV");
+                Validate.requireLengthIn(iv, new int[]{12, 16}, "IV");
 
                 if ("CBC".equals(mode)) {
                     if ("PKCS7".equals(padding)) {
                         data = SM4.cbcDecPkcs7(key, iv, cipher);
                     } else {
+                        Validate.requireBlockMultiple(cipher, 16, "密文数据（NoPadding）");
                         data = SM4.cbcDecNoPadding(key, iv, cipher);
                     }
                 } else if ("CFB".equals(mode)) {
                     if ("PKCS7".equals(padding)) {
                         data = SM4.cfbDecPkcs7(key, iv, cipher);
                     } else {
+                        Validate.requireBlockMultiple(cipher, 16, "密文数据（NoPadding）");
                         data = SM4.cfbDecNoPadding(key, iv, cipher);
                     }
                 } else if ("OFB".equals(mode)) {
                     if ("PKCS7".equals(padding)) {
                         data = SM4.ofbDecPkcs7(key, iv, cipher);
                     } else {
+                        Validate.requireBlockMultiple(cipher, 16, "密文数据（NoPadding）");
                         data = SM4.ofbDecNoPadding(key, iv, cipher);
                     }
                 } else if ("GCM".equals(mode)) {
@@ -209,8 +221,9 @@ public class ActionSm4 implements ActionListener {
             String dataStr = tabSm4.getCmacForm().getDataTextArea().getText();
             String dataEncode = tabSm4.getCmacForm().getDataEncodeComboBox().getSelectedItem().toString();
 
-            byte[] key = ByteUtil.str2Bytes(keyStr, keyEncode);
-            byte[] data = ByteUtil.str2Bytes(dataStr, dataEncode);
+            byte[] key = Validate.requireBytes(keyStr, keyEncode, "密钥");
+            Validate.requireExactLength(key, 16, "密钥");
+            byte[] data = Validate.requireBytes(dataStr, dataEncode, "数据");
 
             // 计算CMAC
             byte[] mac = SM4.cmac(key, data);

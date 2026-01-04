@@ -18,6 +18,20 @@ public class ViewCertView {
     private JTextArea certInfoTextArea;
     private JButton resetButton;
 
+    // 工具箱（P0/P1）
+    private JPanel toolPanel;
+    private JButton toPemButton;
+    private JButton toDerBase64Button;
+    private JButton toDerHexButton;
+    private JButton splitPemButton;
+    private JButton verifyChainButton;
+    private JButton saveInfoButton;
+    private JButton exportPemButton;
+    private JButton exportDerButton;
+    private JButton buildChainButton;
+    private JPasswordField p12PasswordField;
+    private JTextArea trustPemTextArea;
+
     public void init(TabCert parent) {
         parseButton.setActionCommand("parseCert");
         parseButton.addActionListener(parent.getAction());
@@ -25,6 +39,44 @@ public class ViewCertView {
         loadFileButton.addActionListener(parent.getAction());
         resetButton.setActionCommand("resetForm");
         resetButton.addActionListener(parent.getAction());
+
+        // 这些控件由 UI Designer 生成；如果你手动改过 $$$setupUI$$$ 导致字段为 null，这里避免直接 NPE
+        if (toPemButton != null) {
+            toPemButton.setActionCommand("certToPem");
+            toPemButton.addActionListener(parent.getAction());
+        }
+        if (toDerBase64Button != null) {
+            toDerBase64Button.setActionCommand("certToDerBase64");
+            toDerBase64Button.addActionListener(parent.getAction());
+        }
+        if (toDerHexButton != null) {
+            toDerHexButton.setActionCommand("certToDerHex");
+            toDerHexButton.addActionListener(parent.getAction());
+        }
+        if (splitPemButton != null) {
+            splitPemButton.setActionCommand("certSplitPem");
+            splitPemButton.addActionListener(parent.getAction());
+        }
+        if (verifyChainButton != null) {
+            verifyChainButton.setActionCommand("certVerifyChain");
+            verifyChainButton.addActionListener(parent.getAction());
+        }
+        if (saveInfoButton != null) {
+            saveInfoButton.setActionCommand("certSaveInfo");
+            saveInfoButton.addActionListener(parent.getAction());
+        }
+        if (exportPemButton != null) {
+            exportPemButton.setActionCommand("certExportPemFile");
+            exportPemButton.addActionListener(parent.getAction());
+        }
+        if (exportDerButton != null) {
+            exportDerButton.setActionCommand("certExportDerFile");
+            exportDerButton.addActionListener(parent.getAction());
+        }
+        if (buildChainButton != null) {
+            buildChainButton.setActionCommand("certBuildChain");
+            buildChainButton.addActionListener(parent.getAction());
+        }
     }
 
     {
@@ -43,7 +95,7 @@ public class ViewCertView {
      */
     private void $$$setupUI$$$() {
         certViewPanel = new JPanel();
-        certViewPanel.setLayout(new GridLayoutManager(6, 3, new Insets(10, 10, 10, 10), -1, -1));
+        certViewPanel.setLayout(new GridLayoutManager(8, 3, new Insets(10, 10, 10, 10), -1, -1));
         final JLabel label1 = new JLabel();
         label1.setText("证书内容(PEM)：");
         certViewPanel.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -64,20 +116,67 @@ public class ViewCertView {
         resetButton = new JButton();
         resetButton.setText("重置");
         certViewPanel.add(resetButton, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer2 = new Spacer();
-        certViewPanel.add(spacer2, new GridConstraints(3, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 10), null, 0, false));
+        toolPanel = new JPanel();
+        toolPanel.setLayout(new GridLayoutManager(2, 6, new Insets(0, 0, 0, 0), -1, -1));
+        certViewPanel.add(toolPanel, new GridConstraints(3, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        toPemButton = new JButton();
+        toPemButton.setText("转换为PEM");
+        toolPanel.add(toPemButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        toDerBase64Button = new JButton();
+        toDerBase64Button.setText("DER(Base64)");
+        toolPanel.add(toDerBase64Button, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        toDerHexButton = new JButton();
+        toDerHexButton.setText("DER(HEX)");
+        toolPanel.add(toDerHexButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        splitPemButton = new JButton();
+        splitPemButton.setText("拆分PEM");
+        toolPanel.add(splitPemButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
-        label2.setText("证书信息：");
-        certViewPanel.add(label2, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label2.setText("P12口令：");
+        toolPanel.add(label2, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        p12PasswordField = new JPasswordField();
+        p12PasswordField.setColumns(10);
+        toolPanel.add(p12PasswordField, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        verifyChainButton = new JButton();
+        verifyChainButton.setText("验证链");
+        toolPanel.add(verifyChainButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        saveInfoButton = new JButton();
+        saveInfoButton.setText("保存输出");
+        toolPanel.add(saveInfoButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        buildChainButton = new JButton();
+        buildChainButton.setText("构建链");
+        toolPanel.add(buildChainButton, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        exportPemButton = new JButton();
+        exportPemButton.setText("导出PEM");
+        toolPanel.add(exportPemButton, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        exportDerButton = new JButton();
+        exportDerButton.setText("导出DER");
+        toolPanel.add(exportDerButton, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        toolPanel.add(spacer2, new GridConstraints(1, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label3 = new JLabel();
+        label3.setText("信任根/中间证书(PEM，可多张)：");
+        certViewPanel.add(label3, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane2 = new JScrollPane();
-        certViewPanel.add(scrollPane2, new GridConstraints(4, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(500, 250), null, 0, false));
+        certViewPanel.add(scrollPane2, new GridConstraints(4, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(500, 110), null, 0, false));
+        trustPemTextArea = new JTextArea();
+        trustPemTextArea.setLineWrap(true);
+        trustPemTextArea.setRows(5);
+        scrollPane2.setViewportView(trustPemTextArea);
+        final Spacer spacer3 = new Spacer();
+        certViewPanel.add(spacer3, new GridConstraints(5, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 10), null, 0, false));
+        final JLabel label4 = new JLabel();
+        label4.setText("证书信息：");
+        certViewPanel.add(label4, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JScrollPane scrollPane3 = new JScrollPane();
+        certViewPanel.add(scrollPane3, new GridConstraints(6, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(500, 250), null, 0, false));
         certInfoTextArea = new JTextArea();
         certInfoTextArea.setEditable(false);
         certInfoTextArea.setLineWrap(true);
         certInfoTextArea.setRows(12);
-        scrollPane2.setViewportView(certInfoTextArea);
-        final Spacer spacer3 = new Spacer();
-        certViewPanel.add(spacer3, new GridConstraints(5, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        scrollPane3.setViewportView(certInfoTextArea);
+        final Spacer spacer4 = new Spacer();
+        certViewPanel.add(spacer4, new GridConstraints(7, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**

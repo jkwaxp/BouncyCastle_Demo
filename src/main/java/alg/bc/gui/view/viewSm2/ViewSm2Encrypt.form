@@ -29,7 +29,7 @@
       </component>
       <component id="d1d44" class="javax.swing.JLabel">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="数据："/>
@@ -101,7 +101,7 @@
       </component>
       <component id="a12fa" class="javax.swing.JTextArea" binding="pubKeyArea">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="16" vsize-policy="6" hsize-policy="0" anchor="8" fill="2" indent="0" use-parent-layout="false">
+          <grid row="0" column="1" row-span="1" col-span="16" vsize-policy="6" hsize-policy="0" anchor="8" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="400" height="50"/>
           </grid>
         </constraints>
@@ -111,7 +111,7 @@
       </component>
       <component id="e23e0" class="javax.swing.JTextArea" binding="dataArea">
         <constraints>
-          <grid row="1" column="1" row-span="1" col-span="16" vsize-policy="6" hsize-policy="0" anchor="8" fill="2" indent="0" use-parent-layout="false">
+          <grid row="1" column="1" row-span="1" col-span="16" vsize-policy="6" hsize-policy="4" anchor="8" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="400" height="50"/>
           </grid>
         </constraints>
@@ -121,7 +121,7 @@
       </component>
       <component id="6edea" class="javax.swing.JTextArea" binding="cipherDataArea">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="16" vsize-policy="6" hsize-policy="0" anchor="8" fill="2" indent="0" use-parent-layout="false">
+          <grid row="3" column="1" row-span="1" col-span="16" vsize-policy="6" hsize-policy="0" anchor="8" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="400" height="50"/>
           </grid>
         </constraints>

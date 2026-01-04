@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="alg.bc.gui.view.viewInternational.ViewIntRsa">
+  <grid id="27dc6" binding="rsaPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="720" height="520"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="rsaTabs" default-binding="true">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="kp" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="密钥对"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="l0" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="KeySize："/>
+                </properties>
+              </component>
+              <component id="ks" class="javax.swing.JComboBox" binding="keySizeComboBox">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="enc" class="javax.swing.JComboBox" binding="keyEncodeComboBox">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="gen" class="javax.swing.JButton" binding="generateKeyPairButton">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="生成密钥对"/>
+                </properties>
+              </component>
+              <component id="lp" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="公钥(X.509)："/>
+                </properties>
+              </component>
+              <scrollpane id="sp1">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="500" height="110"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="pub" class="javax.swing.JTextArea" binding="pubKeyTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="6"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="ls" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="私钥(PKCS#8)："/>
+                </properties>
+              </component>
+              <scrollpane id="sp2">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="500" height="110"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="prv" class="javax.swing.JTextArea" binding="prvKeyTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="6"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+
+          <!-- 加解密 -->
+          <grid id="cipher" layout-manager="GridLayoutManager" row-count="6" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="加解密"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="k1" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="加密密钥："/>
+                </properties>
+              </component>
+              <scrollpane id="sck1">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="500" height="70"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="ek" class="javax.swing.JTextArea" binding="encryptKeyTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="4"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="ekt" class="javax.swing.JComboBox" binding="encryptKeyTypeComboBox">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+
+              <component id="k2" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="解密密钥："/>
+                </properties>
+              </component>
+              <scrollpane id="sck2">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="500" height="70"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="dk" class="javax.swing.JTextArea" binding="decryptKeyTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="4"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="dkt" class="javax.swing.JComboBox" binding="decryptKeyTypeComboBox">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+
+              <component id="din" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="输入："/>
+                </properties>
+              </component>
+              <scrollpane id="sin">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="500" height="110"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="in" class="javax.swing.JTextArea" binding="cipherInputTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="6"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="inEnc" class="javax.swing.JComboBox" binding="cipherInputEncodeComboBox">
+                <constraints>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+
+              <component id="eb" class="javax.swing.JButton" binding="rsaEncryptButton">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties><text value="加密"/></properties>
+              </component>
+              <component id="db" class="javax.swing.JButton" binding="rsaDecryptButton">
+                <constraints>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties><text value="解密"/></properties>
+              </component>
+              <component id="outEnc" class="javax.swing.JComboBox" binding="cipherOutputEncodeComboBox">
+                <constraints>
+                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="dout" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties><text value="输出："/></properties>
+              </component>
+              <scrollpane id="sout">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="500" height="110"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="out" class="javax.swing.JTextArea" binding="cipherOutputTextArea">
+                    <constraints/>
+                    <properties><lineWrap value="true"/><rows value="6"/></properties>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+
+          <!-- 签名验签：简化为同页 -->
+          <grid id="sig" layout-manager="GridLayoutManager" row-count="8" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="签名验签"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="ls1" class="javax.swing.JLabel">
+                <constraints><grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
+                <properties><text value="签名私钥："/></properties>
+              </component>
+              <scrollpane id="ss1">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="500" height="70"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="sprv" class="javax.swing.JTextArea" binding="signPrvKeyTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="4"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="ls2" class="javax.swing.JLabel">
+                <constraints><grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
+                <properties><text value="签名数据："/></properties>
+              </component>
+              <scrollpane id="ss2">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="400" height="110"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="smsg" class="javax.swing.JTextArea" binding="signMsgTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="6"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="smsgEnc" class="javax.swing.JComboBox" binding="signMsgEncodeComboBox">
+                <constraints><grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+              </component>
+              <component id="sb" class="javax.swing.JButton" binding="signButton">
+                <constraints><grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/></constraints>
+                <properties><text value="签名(SHA256withRSA)"/></properties>
+              </component>
+              <component id="ls3" class="javax.swing.JLabel">
+                <constraints><grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
+                <properties><text value="签名值："/></properties>
+              </component>
+              <scrollpane id="ss3">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="400" height="70"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="sout" class="javax.swing.JTextArea" binding="signOutTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="4"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="soutEnc" class="javax.swing.JComboBox" binding="signOutEncodeComboBox">
+                <constraints><grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+              </component>
+
+              <component id="lv1" class="javax.swing.JLabel">
+                <constraints><grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
+                <properties><text value="验签公钥："/></properties>
+              </component>
+              <scrollpane id="sv1">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="500" height="70"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="vpub" class="javax.swing.JTextArea" binding="verifyPubKeyTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="4"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="lv2" class="javax.swing.JLabel">
+                <constraints><grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
+                <properties><text value="验签数据："/></properties>
+              </component>
+              <scrollpane id="sv2">
+                <constraints>
+                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="400" height="110"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="vmsg" class="javax.swing.JTextArea" binding="verifyMsgTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="6"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="vmsgEnc" class="javax.swing.JComboBox" binding="verifyMsgEncodeComboBox">
+                <constraints><grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+              </component>
+              <component id="lv3" class="javax.swing.JLabel">
+                <constraints><grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
+                <properties><text value="验签签名："/></properties>
+              </component>
+              <scrollpane id="sv3">
+                <constraints>
+                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="400" height="70"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="vsig" class="javax.swing.JTextArea" binding="verifySigTextArea">
+                    <constraints/>
+                    <properties>
+                      <lineWrap value="true"/>
+                      <rows value="4"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="vsigEnc" class="javax.swing.JComboBox" binding="verifySigEncodeComboBox">
+                <constraints><grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+              </component>
+              <component id="vb" class="javax.swing.JButton" binding="verifyButton">
+                <constraints><grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/></constraints>
+                <properties><text value="验签"/></properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+</form>
+
+

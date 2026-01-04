@@ -3,6 +3,7 @@ package alg.bc.gui.action;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Validate;
 import alg.bc.gui.view.TabSm2;
 import alg.bc.nation.SM2;
 import org.bouncycastle.crypto.engines.SM2Engine;
@@ -79,7 +80,9 @@ public class ActionSm2 implements ActionListener {
             if(tabSm2.getEncryptForm().getC1C2C3RadioButton().isSelected()){
                 mode = SM2Engine.Mode.C1C2C3;
             }
-            byte[] ret = SM2.encrypt(ByteUtil.str2Bytes(pubKey, pubKeyEncode), ByteUtil.str2Bytes(data, dataEncode), mode);
+            byte[] pubBytes = Validate.requireSm2PublicKey(pubKey, pubKeyEncode, "公钥");
+            byte[] dataBytes = Validate.requireBytes(data, dataEncode, "明文数据");
+            byte[] ret = SM2.encrypt(pubBytes, dataBytes, mode);
             String cipherDataEncode = tabSm2.getEncryptForm().getCipherDatacomboBox().getSelectedItem().toString();
             tabSm2.getEncryptForm().getCipherDataArea().setText(ByteUtil.bytes2Str(ret, cipherDataEncode));
         }catch (Exception e){
@@ -97,7 +100,9 @@ public class ActionSm2 implements ActionListener {
             if(tabSm2.getDecryptForm().getC1C2C3RadioButton().isSelected()){
                 mode = SM2Engine.Mode.C1C2C3;
             }
-            byte[] ret = SM2.decrypt(ByteUtil.str2Bytes(prvKey, prvKeyEncode), ByteUtil.str2Bytes(cipherData, cipherDataEncode), mode);
+            byte[] prvBytes = Validate.requireSm2PrivateKey(prvKey, prvKeyEncode, "私钥");
+            byte[] cipherBytes = Validate.requireBytes(cipherData, cipherDataEncode, "密文数据");
+            byte[] ret = SM2.decrypt(prvBytes, cipherBytes, mode);
             String dataEncode = tabSm2.getDecryptForm().getDataTypeComboBox().getSelectedItem().toString();
             tabSm2.getDecryptForm().getDataTextArea().setText(ByteUtil.bytes2Str(ret, dataEncode));
         }catch (Exception e){
@@ -112,7 +117,9 @@ public class ActionSm2 implements ActionListener {
             String data = tabSm2.getSignForm().getDataTextArea().getText();
             String dataEncode = tabSm2.getSignForm().getDataTypeComboBox().getSelectedItem().toString();
 
-            byte[] ret = SM2.sign(ByteUtil.str2Bytes(prvKey, prvKeyEncode), ByteUtil.str2Bytes(data, dataEncode));
+            byte[] prvBytes = Validate.requireSm2PrivateKey(prvKey, prvKeyEncode, "私钥");
+            byte[] dataBytes = Validate.requireBytes(data, dataEncode, "待签名数据");
+            byte[] ret = SM2.sign(prvBytes, dataBytes);
             String signEncode = tabSm2.getSignForm().getSignTypeComboBox().getSelectedItem().toString();
             tabSm2.getSignForm().getSignTextArea().setText(ByteUtil.bytes2Str(ret, signEncode));
         }catch (Exception e){
@@ -128,7 +135,10 @@ public class ActionSm2 implements ActionListener {
             String sign = tabSm2.getVerifyForm().getSignTextArea().getText();
             String signEncode = tabSm2.getVerifyForm().getSignEncodeComboBox().getSelectedItem().toString();
 
-            boolean ret = SM2.verify(ByteUtil.str2Bytes(pubKey, pubKeyEncode), ByteUtil.str2Bytes(data, dataEncode), ByteUtil.str2Bytes(sign, signEncode));
+            byte[] pubBytes = Validate.requireSm2PublicKey(pubKey, pubKeyEncode, "公钥");
+            byte[] dataBytes = Validate.requireBytes(data, dataEncode, "待验签数据");
+            byte[] sigBytes = Validate.requireSm2SignaturePlain(sign, signEncode, "签名值");
+            boolean ret = SM2.verify(pubBytes, dataBytes, sigBytes);
             CompUtil.showMsg(Boot.frame, "验签结果", ret ? "通过" : "不通过");
         }catch (Exception e){
             CompUtil.showErr(Boot.frame, e.getMessage());
@@ -139,7 +149,8 @@ public class ActionSm2 implements ActionListener {
             String pubKey = tabSm2.getCompressForm().getPubKeyTextArea().getText();
             String pubKeyEncode = tabSm2.getCompressForm().getPubTypeComboBox().getSelectedItem().toString();
 
-            byte[] compressedKey = SM2.compress(ByteUtil.str2Bytes(pubKey, pubKeyEncode));
+            byte[] pubBytes = Validate.requireSm2PublicKey(pubKey, pubKeyEncode, "公钥");
+            byte[] compressedKey = SM2.compress(pubBytes);
 
             String dataEncode = tabSm2.getCompressForm().getResultTypeComboBox().getSelectedItem().toString();
             tabSm2.getCompressForm().getResultTextArea().setText(ByteUtil.bytes2Str(compressedKey, dataEncode));
@@ -152,7 +163,8 @@ public class ActionSm2 implements ActionListener {
             String pubKey = tabSm2.getCompressForm().getPubKeyTextArea().getText();
             String pubKeyEncode = tabSm2.getCompressForm().getPubTypeComboBox().getSelectedItem().toString();
 
-            byte[] decompressedKey = SM2.decompress(ByteUtil.str2Bytes(pubKey, pubKeyEncode));
+            byte[] pubBytes = Validate.requireSm2PublicKey(pubKey, pubKeyEncode, "公钥");
+            byte[] decompressedKey = SM2.decompress(pubBytes);
 
             String dataEncode = tabSm2.getCompressForm().getResultTypeComboBox().getSelectedItem().toString();
             tabSm2.getCompressForm().getResultTextArea().setText(ByteUtil.bytes2Str(decompressedKey, dataEncode));

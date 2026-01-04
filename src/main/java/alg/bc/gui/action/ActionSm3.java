@@ -3,6 +3,7 @@ package alg.bc.gui.action;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Validate;
 import alg.bc.gui.view.TabSm3;
 import alg.bc.nation.SM3;
 
@@ -44,13 +45,10 @@ public class ActionSm3 implements ActionListener {
             if(isTxt) {
                 String txt = tabSm3.getViewSm3Hash().getInputTextArea().getText();
                 String txtEncode = tabSm3.getViewSm3Hash().getDataEncodeComboBox().getSelectedItem().toString();
-                input = ByteUtil.str2Bytes(txt, txtEncode);
+                input = Validate.requireBytes(txt, txtEncode, "输入数据");
             }else{
                 String filePath = tabSm3.getViewSm3Hash().getFileTextField().getText();
-                if("".equals(filePath)){
-                    CompUtil.showMsg(Boot.frame, "请选择文件");
-                    return ;
-                }
+                Validate.requireFileExists(filePath, "文件");
                 input = ByteUtil.readFile(filePath);
             }
             byte[] hash = SM3.hash(input);
@@ -68,18 +66,16 @@ public class ActionSm3 implements ActionListener {
             if(isTxt) {
                 String txt = tabSm3.getViewSm3Hmac().getInputTextArea().getText();
                 String txtEncode = tabSm3.getViewSm3Hmac().getDataEncodeComboBox().getSelectedItem().toString();
-                input = ByteUtil.str2Bytes(txt, txtEncode);
+                input = Validate.requireBytes(txt, txtEncode, "输入数据");
             }else{
                 String filePath = tabSm3.getViewSm3Hmac().getFileTextField().getText();
-                if("".equals(filePath)){
-                    CompUtil.showMsg(Boot.frame, "请选择文件");
-                    return ;
-                }
+                Validate.requireFileExists(filePath, "文件");
                 input = ByteUtil.readFile(filePath);
             }
             String key = tabSm3.getViewSm3Hmac().getKeyTextArea().getText();
             String keyEncode = tabSm3.getViewSm3Hmac().getKeyEncodeComboBox().getSelectedItem().toString();
-            byte[] hmac = SM3.hmac(ByteUtil.str2Bytes(key, keyEncode), input);
+            byte[] keyBytes = Validate.requireBytes(key, keyEncode, "HMAC密钥");
+            byte[] hmac = SM3.hmac(keyBytes, input);
             String resultEncode = tabSm3.getViewSm3Hmac().getResultEncodeComboBox().getSelectedItem().toString();
             tabSm3.getViewSm3Hmac().getResultTextArea().setText(ByteUtil.bytes2Str(hmac, resultEncode));
         }catch (Exception e){

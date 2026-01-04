@@ -100,6 +100,21 @@
                       </nested-form>
                     </children>
                   </grid>
+                  <grid id="sm9grid" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="SM9"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <nested-form id="sm9form" form-file="alg/bc/gui/view/TabSm9.form" binding="tabSm91" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </nested-form>
+                    </children>
+                  </grid>
                   <grid id="349b8" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
@@ -127,7 +142,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <tabbedpane id="dde11">
+              <tabbedpane id="intTabs">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="200" height="200"/>
@@ -136,50 +151,95 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="a1443" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="intDes3" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="DES3"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
-                    <children/>
+                    <children>
+                      <nested-form id="intDes3Form" form-file="alg/bc/gui/view/viewInternational/ViewIntDes3.form" binding="intDes3Form" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </nested-form>
+                    </children>
                   </grid>
-                  <grid id="8878c" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="intAes" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="AES"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
-                    <children/>
+                    <children>
+                      <nested-form id="intAesForm" form-file="alg/bc/gui/view/viewInternational/ViewIntAes.form" binding="intAesForm" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </nested-form>
+                    </children>
                   </grid>
-                  <grid id="30e1e" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="intRsa" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="RSA"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
-                    <children/>
+                    <children>
+                      <nested-form id="intRsaForm" form-file="alg/bc/gui/view/viewInternational/ViewIntRsa.form" binding="intRsaForm" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </nested-form>
+                    </children>
                   </grid>
-                  <grid id="b47f1" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="intHash" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="HASH"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
-                    <children/>
+                    <children>
+                      <nested-form id="intHashForm" form-file="alg/bc/gui/view/viewInternational/ViewIntHash.form" binding="intHashForm" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </nested-form>
+                    </children>
                   </grid>
-                  <grid id="845ab" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="intMac" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="MAC"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <nested-form id="intMacForm" form-file="alg/bc/gui/view/viewInternational/ViewIntMac.form" binding="intMacForm" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </nested-form>
+                    </children>
+                  </grid>
+                  <grid id="intCert" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="证书"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
-                    <children/>
+                    <children>
+                      <nested-form id="intCertForm" form-file="alg/bc/gui/view/viewInternational/ViewIntCert.form" binding="intCertForm" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </nested-form>
+                    </children>
                   </grid>
                 </children>
               </tabbedpane>
