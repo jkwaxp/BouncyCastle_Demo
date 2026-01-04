@@ -15,6 +15,7 @@ import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECParameterSpec;
+import org.bouncycastle.jce.spec.ECPrivateKeySpec;
 import org.bouncycastle.math.ec.*;
 import org.bouncycastle.util.BigIntegers;
 import org.bouncycastle.util.Strings;
@@ -23,6 +24,7 @@ import org.bouncycastle.util.encoders.Hex;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.*;
+import java.util.Arrays;
 
 /**
  * GM/T 0003-2012 标准推荐参数 sm2p256v1
@@ -113,8 +115,10 @@ public class SM2 extends ProviderRegist {
      * @throws Exception
      */
     public static PrivateKey bytesToPrvKey(byte[] buffer) throws Exception{
-        ECPrivateKeyParameters privateKeyParameters = new ECPrivateKeyParameters(new BigInteger(1, buffer), domainParams);
-        return new BCECPrivateKey("EC", privateKeyParameters, BouncyCastleProvider.CONFIGURATION);
+        ECParameterSpec parameterSpec = new ECParameterSpec(domainParams.getCurve(), domainParams.getG(),
+                domainParams.getN(), domainParams.getH());
+        ECPrivateKeySpec privateKeySpec = new ECPrivateKeySpec(new BigInteger(1, buffer), parameterSpec);
+        return new BCECPrivateKey("EC", privateKeySpec, BouncyCastleProvider.CONFIGURATION);
     }
 
     /**
@@ -562,9 +566,20 @@ public class SM2 extends ProviderRegist {
         byte[] x = publicKeyPoint.getXCoord().toBigInteger().toByteArray();
         byte[] y = publicKeyPoint.getYCoord().toBigInteger().toByteArray();
         byte[] data = new byte[64];
-        System.arraycopy(x, x.length - 32, data, 0, 32);
-        System.arraycopy(y, y.length - 32, data, 32, 32);
+        fillCoordinate(x, data, 0);
+        fillCoordinate(y, data, 32);
         return data;
+    }
+
+    private static void fillCoordinate(byte[] source, byte[] target, int offset) {
+        Arrays.fill(target, offset, offset + 32, (byte) 0);
+        if (source == null || source.length == 0) {
+            return;
+        }
+        int copyLen = Math.min(32, source.length);
+        int srcPos = source.length - copyLen;
+        int destPos = offset + 32 - copyLen;
+        System.arraycopy(source, srcPos, target, destPos, copyLen);
     }
 
     /**

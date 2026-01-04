@@ -2,6 +2,7 @@ package alg.bc.gui.view.viewSm2;
 
 import alg.bc.gui.view.TabSm2;
 import alg.bc.gui.util.EncodeSwitchBinder;
+import alg.bc.gui.util.Sm2SignatureFormatBinder;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class ViewSm2Sign {
         EncodeSwitchBinder.bind(prvKeyTypeComboBox, prvKeyTextArea, "私钥");
         EncodeSwitchBinder.bind(dataTypeComboBox, dataTextArea, "数据");
         EncodeSwitchBinder.bind(signTypeComboBox, signTextArea, "签名值");
+        Sm2SignatureFormatBinder.bind(signEncodeRaw, signEncodeAsn1, signTypeComboBox, signTextArea, "签名值");
     }
 
     {

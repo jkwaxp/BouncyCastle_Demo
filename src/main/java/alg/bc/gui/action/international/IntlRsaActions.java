@@ -18,9 +18,17 @@ public class IntlRsaActions {
     }
 
     public void rsaGenerateKeyPair() throws Exception {
-        int size = (Integer) ui.getIntRsaForm().getKeySizeComboBox().getSelectedItem();
+        Integer sizeObj = (Integer) ui.getIntRsaForm().getKeySizeComboBox().getSelectedItem();
+        if (sizeObj == null) {
+            throw new IllegalArgumentException("KeySize 未选择，无法生成密钥对");
+        }
+        Object encObj = ui.getIntRsaForm().getKeyEncodeComboBox().getSelectedItem();
+        if (encObj == null) {
+            throw new IllegalArgumentException("密钥编码未选择，无法生成密钥对");
+        }
+        int size = sizeObj;
         KeyPair kp = Rsa.generateKeyPair(size);
-        String enc = ui.getIntRsaForm().getKeyEncodeComboBox().getSelectedItem().toString();
+        String enc = encObj.toString();
         ui.getIntRsaForm().getPubKeyTextArea().setText(ByteUtil.bytes2Str(kp.getPublic().getEncoded(), enc));
         ui.getIntRsaForm().getPrvKeyTextArea().setText(ByteUtil.bytes2Str(kp.getPrivate().getEncoded(), enc));
     }

@@ -16,11 +16,13 @@ import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
 
+import javax.security.auth.x500.X500Principal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigInteger;
@@ -122,9 +124,10 @@ public class ActionCert implements ActionListener {
             // 生成CSR
             String dn = normalizeDn(subject);
             ContentSigner signer = new JcaContentSignerBuilder("SM3withSM2")
-                    .setProvider(org.bouncycastle.jce.provider.BouncyCastleProvider.PROVIDER_NAME)
+                    .setProvider(BouncyCastleProvider.PROVIDER_NAME)
                     .build(privateKey);
-            PKCS10CertificationRequest csr = new JcaPKCS10CertificationRequestBuilder(new javax.security.auth.x500.X500Principal(dn), publicKey)
+            PKCS10CertificationRequest csr = new JcaPKCS10CertificationRequestBuilder(
+                    new X500Principal(dn), publicKey)
                     .build(signer);
 
             // 转换为PEM格式
@@ -134,7 +137,11 @@ public class ActionCert implements ActionListener {
             tabCert.getGenerateForm().getResultTextArea().setText(csrPem + "\n" + X509Toolbox.describeCsr(csr));
 
         } catch (Exception ex) {
-            CompUtil.showErr(Boot.frame, "生成CSR失败: " + ex.getMessage());
+            String errMsg = ex.getMessage();
+            if (errMsg == null || errMsg.trim().isEmpty()) {
+                errMsg = ex.getClass().getSimpleName() + ": " + ex.toString();
+            }
+            CompUtil.showErr(Boot.frame, "生成CSR失败: " + errMsg);
         }
     }
 
@@ -161,13 +168,13 @@ public class ActionCert implements ActionListener {
 
             SubjectPublicKeyInfo spki = SubjectPublicKeyInfo.getInstance(publicKey.getEncoded());
             X509v3CertificateBuilder builder = new X509v3CertificateBuilder(
-                    x500Name, serial, notBefore, notAfter, x500Name, spki
-            );
+                    x500Name, serial, notBefore, notAfter, x500Name, spki);
             JcaX509ExtensionUtils extUtils = new JcaX509ExtensionUtils();
             builder.addExtension(Extension.subjectKeyIdentifier, false, extUtils.createSubjectKeyIdentifier(spki));
             builder.addExtension(Extension.basicConstraints, true, new BasicConstraints(false));
             builder.addExtension(Extension.keyUsage, true,
-                    new KeyUsage(KeyUsage.digitalSignature | KeyUsage.keyAgreement | KeyUsage.keyEncipherment | KeyUsage.dataEncipherment));
+                    new KeyUsage(KeyUsage.digitalSignature | KeyUsage.keyAgreement | KeyUsage.keyEncipherment
+                            | KeyUsage.dataEncipherment));
 
             ContentSigner signer = new JcaContentSignerBuilder("SM3withSM2")
                     .setProvider(org.bouncycastle.jce.provider.BouncyCastleProvider.PROVIDER_NAME)
@@ -187,8 +194,7 @@ public class ActionCert implements ActionListener {
                             "\n# ---- Private Key (PKCS#8) ----\n" +
                             keyPem +
                             "\n" +
-                            X509Toolbox.describeCertificate(cert)
-            );
+                            X509Toolbox.describeCertificate(cert));
 
         } catch (Exception ex) {
             CompUtil.showErr(Boot.frame, "生成自签证书失败: " + ex.getMessage());
@@ -212,7 +218,7 @@ public class ActionCert implements ActionListener {
             if (asText.contains("-----BEGIN")) {
                 tabCert.getViewForm().getCertInputTextArea().setText(asText);
             } else {
-                String b64 = java.util.Base64.getMimeEncoder(64, new byte[]{'\n'}).encodeToString(bytes);
+                String b64 = java.util.Base64.getMimeEncoder(64, new byte[] { '\n' }).encodeToString(bytes);
                 tabCert.getViewForm().getCertInputTextArea().setText(b64);
                 CompUtil.showMsg(Boot.frame, "提示", "已加载二进制文件，已以 BASE64 形式显示（点击“解析证书”即可自动识别）");
             }
@@ -313,13 +319,16 @@ public class ActionCert implements ActionListener {
                 }
 
                 // 4) PKCS#12（必要时提示密码）
-                boolean maybeP12 = (lastLoadedPath != null) && lastLoadedPath.toLowerCase(Locale.ROOT).matches(".*\\.(p12|pfx)$");
+                boolean maybeP12 = (lastLoadedPath != null)
+                        && lastLoadedPath.toLowerCase(Locale.ROOT).matches(".*\\.(p12|pfx)$");
                 if (maybeP12) {
                     char[] presetPwd = readP12Password();
-                    KeyStore ks = (presetPwd == null) ? X509Toolbox.tryLoadPkcs12(bytes, new char[0]) : X509Toolbox.tryLoadPkcs12(bytes, presetPwd);
+                    KeyStore ks = (presetPwd == null) ? X509Toolbox.tryLoadPkcs12(bytes, new char[0])
+                            : X509Toolbox.tryLoadPkcs12(bytes, presetPwd);
                     if (ks == null) {
                         char[] pwd = promptPassword("请输入 PKCS#12 口令（p12/pfx）：");
-                        if (pwd != null) ks = X509Toolbox.tryLoadPkcs12(bytes, pwd);
+                        if (pwd != null)
+                            ks = X509Toolbox.tryLoadPkcs12(bytes, pwd);
                     }
                     if (ks != null) {
                         sb.append(X509Toolbox.describeKeyStorePkcs12(ks)).append("\n");
@@ -367,7 +376,7 @@ public class ActionCert implements ActionListener {
         try {
             ParsedInput in = parseInputBestEffort();
             byte[] der = pickFirstDer(in);
-            String b64 = java.util.Base64.getMimeEncoder(64, new byte[]{'\n'}).encodeToString(der);
+            String b64 = java.util.Base64.getMimeEncoder(64, new byte[] { '\n' }).encodeToString(der);
             tabCert.getViewForm().getCertInputTextArea().setText(b64);
             CompUtil.showMsg(Boot.frame, "已输出 DER(Base64)");
         } catch (Exception ex) {
@@ -389,13 +398,16 @@ public class ActionCert implements ActionListener {
     private void certSplitPem() {
         try {
             String text = tabCert.getViewForm().getCertInputTextArea().getText();
-            if (text == null || text.trim().isEmpty()) throw new IllegalArgumentException("输入不能为空");
+            if (text == null || text.trim().isEmpty())
+                throw new IllegalArgumentException("输入不能为空");
             if (!text.trim().startsWith("-----BEGIN")) {
                 // 非 PEM：先解析成证书并输出 pem bundle
                 ParsedInput in = parseInputBestEffort();
-                if (in.certs == null || in.certs.isEmpty()) throw new IllegalArgumentException("未识别到证书，无法拆分");
+                if (in.certs == null || in.certs.isEmpty())
+                    throw new IllegalArgumentException("未识别到证书，无法拆分");
                 StringBuilder out = new StringBuilder();
-                for (X509Certificate c : in.certs) out.append(X509Toolbox.toPem(c)).append("\n");
+                for (X509Certificate c : in.certs)
+                    out.append(X509Toolbox.toPem(c)).append("\n");
                 tabCert.getViewForm().getCertInputTextArea().setText(out.toString());
                 return;
             }
@@ -411,7 +423,8 @@ public class ActionCert implements ActionListener {
                     out.append(X509Toolbox.toPem(cert)).append("\n");
                 }
             }
-            if (idx == 0) throw new IllegalArgumentException("未找到 CERTIFICATE PEM 块");
+            if (idx == 0)
+                throw new IllegalArgumentException("未找到 CERTIFICATE PEM 块");
             tabCert.getViewForm().getCertInputTextArea().setText(out.toString());
             CompUtil.showMsg(Boot.frame, "已拆分 PEM（仅提取 CERTIFICATE 块）");
         } catch (Exception ex) {
@@ -432,7 +445,8 @@ public class ActionCert implements ActionListener {
 
             X509Certificate leaf = pickLeaf(in.certs);
             List<TrustAnchor> anchors = new ArrayList<>();
-            for (X509Certificate c : trust) anchors.add(new TrustAnchor(c, null));
+            for (X509Certificate c : trust)
+                anchors.add(new TrustAnchor(c, null));
 
             // 可用证书池：输入证书 + trust（中间也可放这里）
             List<X509Certificate> pool = new ArrayList<>(in.certs);
@@ -450,12 +464,14 @@ public class ActionCert implements ActionListener {
 
             StringBuilder sb = new StringBuilder();
             sb.append("链验证：通过\n");
-            sb.append("TrustAnchor：").append(result.getTrustAnchor().getTrustedCert().getSubjectX500Principal().getName()).append("\n");
+            sb.append("TrustAnchor：")
+                    .append(result.getTrustAnchor().getTrustedCert().getSubjectX500Principal().getName()).append("\n");
             sb.append("路径：\n");
             int i = 0;
             for (Certificate c : result.getCertPath().getCertificates()) {
                 if (c instanceof X509Certificate) {
-                    sb.append("  [").append(i++).append("] ").append(((X509Certificate) c).getSubjectX500Principal().getName()).append("\n");
+                    sb.append("  [").append(i++).append("] ")
+                            .append(((X509Certificate) c).getSubjectX500Principal().getName()).append("\n");
                 }
             }
             tabCert.getViewForm().getCertInfoTextArea().setText(sb.toString());
@@ -468,9 +484,11 @@ public class ActionCert implements ActionListener {
     private void certSaveInfo() {
         try {
             String path = CompUtil.saveFile(Boot.frame, "保存输出");
-            if (path == null || path.trim().isEmpty()) return;
+            if (path == null || path.trim().isEmpty())
+                return;
             String content = tabCert.getViewForm().getCertInfoTextArea().getText();
-            if (content == null) content = "";
+            if (content == null)
+                content = "";
             Files.write(Paths.get(path), content.getBytes(StandardCharsets.UTF_8));
             CompUtil.showMsg(Boot.frame, "已保存到: " + path);
         } catch (Exception ex) {
@@ -485,7 +503,8 @@ public class ActionCert implements ActionListener {
                 throw new IllegalArgumentException("未识别到证书（建议先解析/加载文件）");
             }
             String path = CompUtil.saveFile(Boot.frame, "导出 PEM（证书链）");
-            if (path == null || path.trim().isEmpty()) return;
+            if (path == null || path.trim().isEmpty())
+                return;
             StringBuilder pem = new StringBuilder();
             for (X509Certificate c : in.certs) {
                 pem.append(X509Toolbox.toPem(c)).append("\n");
@@ -504,7 +523,8 @@ public class ActionCert implements ActionListener {
                 throw new IllegalArgumentException("未识别到证书（DER 导出仅支持单张证书）");
             }
             String path = CompUtil.saveFile(Boot.frame, "导出 DER（单证书）");
-            if (path == null || path.trim().isEmpty()) return;
+            if (path == null || path.trim().isEmpty())
+                return;
             byte[] der = in.certs.get(0).getEncoded();
             Files.write(Paths.get(path), der);
             CompUtil.showMsg(Boot.frame, "已导出 DER 到: " + path);
@@ -524,10 +544,12 @@ public class ActionCert implements ActionListener {
             pool.addAll(trust);
 
             List<X509Certificate> chain = buildBestEffortChain(pool);
-            if (chain.isEmpty()) throw new IllegalArgumentException("无法从当前证书集合构建链（可能缺少上级证书）");
+            if (chain.isEmpty())
+                throw new IllegalArgumentException("无法从当前证书集合构建链（可能缺少上级证书）");
 
             StringBuilder pem = new StringBuilder();
-            for (X509Certificate c : chain) pem.append(X509Toolbox.toPem(c)).append("\n");
+            for (X509Certificate c : chain)
+                pem.append(X509Toolbox.toPem(c)).append("\n");
             tabCert.getViewForm().getCertInputTextArea().setText(pem.toString());
 
             StringBuilder info = new StringBuilder();
@@ -548,13 +570,15 @@ public class ActionCert implements ActionListener {
         java.util.Map<String, X509Certificate> bySubject = new java.util.LinkedHashMap<>();
         java.util.Set<String> allIssuers = new java.util.HashSet<>();
         for (X509Certificate c : certs) {
-            if (c == null) continue;
+            if (c == null)
+                continue;
             String subj = c.getSubjectX500Principal().getName();
             String iss = c.getIssuerX500Principal().getName();
             allIssuers.add(iss);
             bySubject.putIfAbsent(subj, c);
         }
-        if (bySubject.isEmpty()) return new ArrayList<>();
+        if (bySubject.isEmpty())
+            return new ArrayList<>();
 
         // leaf：subject 不作为任何人的 issuer，优先；否则随便选一个非 CA；再否则任意
         X509Certificate leaf = null;
@@ -573,16 +597,19 @@ public class ActionCert implements ActionListener {
                 }
             }
         }
-        if (leaf == null) leaf = bySubject.values().iterator().next();
+        if (leaf == null)
+            leaf = bySubject.values().iterator().next();
 
         List<X509Certificate> chain = new ArrayList<>();
         java.util.Set<String> seen = new java.util.HashSet<>();
         X509Certificate cur = leaf;
         while (cur != null) {
             String subj = cur.getSubjectX500Principal().getName();
-            if (!seen.add(subj)) break;
+            if (!seen.add(subj))
+                break;
             chain.add(cur);
-            if (isSelfSigned(cur)) break;
+            if (isSelfSigned(cur))
+                break;
             String issuer = cur.getIssuerX500Principal().getName();
             cur = bySubject.get(issuer);
         }
@@ -591,7 +618,8 @@ public class ActionCert implements ActionListener {
 
     private boolean isSelfSigned(X509Certificate cert) {
         try {
-            if (cert == null) return false;
+            if (cert == null)
+                return false;
             return cert.getSubjectX500Principal().equals(cert.getIssuerX500Principal());
         } catch (Exception ignored) {
             return false;
@@ -631,7 +659,8 @@ public class ActionCert implements ActionListener {
         } else {
             bytes = X509Toolbox.decodeTextToBytesBestEffort(text);
         }
-        if (bytes == null || bytes.length == 0) throw new IllegalArgumentException("输入不能为空");
+        if (bytes == null || bytes.length == 0)
+            throw new IllegalArgumentException("输入不能为空");
 
         // PKCS#7
         List<X509Certificate> pkcs7 = X509Toolbox.parsePkcs7Certificates(bytes);
@@ -655,13 +684,16 @@ public class ActionCert implements ActionListener {
         }
 
         // PKCS#12（仅在文件扩展名匹配时尝试）
-        boolean maybeP12 = (lastLoadedPath != null) && lastLoadedPath.toLowerCase(Locale.ROOT).matches(".*\\.(p12|pfx)$");
+        boolean maybeP12 = (lastLoadedPath != null)
+                && lastLoadedPath.toLowerCase(Locale.ROOT).matches(".*\\.(p12|pfx)$");
         if (maybeP12) {
             char[] preset = readP12Password();
-            KeyStore ks = (preset == null) ? X509Toolbox.tryLoadPkcs12(bytes, new char[0]) : X509Toolbox.tryLoadPkcs12(bytes, preset);
+            KeyStore ks = (preset == null) ? X509Toolbox.tryLoadPkcs12(bytes, new char[0])
+                    : X509Toolbox.tryLoadPkcs12(bytes, preset);
             if (ks == null) {
                 char[] pwd = promptPassword("请输入 PKCS#12 口令（p12/pfx）：");
-                if (pwd != null) ks = X509Toolbox.tryLoadPkcs12(bytes, pwd);
+                if (pwd != null)
+                    ks = X509Toolbox.tryLoadPkcs12(bytes, pwd);
             }
             if (ks != null) {
                 // 尽量从 keystore 抽证书
@@ -670,11 +702,13 @@ public class ActionCert implements ActionListener {
                 while (aliases.hasMoreElements()) {
                     String a = aliases.nextElement();
                     Certificate c = ks.getCertificate(a);
-                    if (c instanceof X509Certificate) ksCerts.add((X509Certificate) c);
+                    if (c instanceof X509Certificate)
+                        ksCerts.add((X509Certificate) c);
                     Certificate[] chain = ks.getCertificateChain(a);
                     if (chain != null) {
                         for (Certificate cc : chain) {
-                            if (cc instanceof X509Certificate) ksCerts.add((X509Certificate) cc);
+                            if (cc instanceof X509Certificate)
+                                ksCerts.add((X509Certificate) cc);
                         }
                     }
                 }
@@ -698,9 +732,11 @@ public class ActionCert implements ActionListener {
 
     private char[] readP12Password() {
         try {
-            if (tabCert.getViewForm().getP12PasswordField() == null) return null;
+            if (tabCert.getViewForm().getP12PasswordField() == null)
+                return null;
             char[] pwd = tabCert.getViewForm().getP12PasswordField().getPassword();
-            if (pwd == null || pwd.length == 0) return null;
+            if (pwd == null || pwd.length == 0)
+                return null;
             return pwd;
         } catch (Exception ignored) {
             return null;
@@ -709,10 +745,12 @@ public class ActionCert implements ActionListener {
 
     private List<X509Certificate> parseTrustCertificates() throws Exception {
         String trustText = tabCert.getViewForm().getTrustPemTextArea().getText();
-        if (trustText == null || trustText.trim().isEmpty()) return new ArrayList<>();
+        if (trustText == null || trustText.trim().isEmpty())
+            return new ArrayList<>();
         byte[] bytes = X509Toolbox.decodeTextToBytesBestEffort(trustText);
         List<X509Certificate> certs = X509Toolbox.parseCertificatesWithJca(bytes);
-        if (!certs.isEmpty()) return certs;
+        if (!certs.isEmpty())
+            return certs;
         // 如果是 PEM 多段，用 PEMParser 抽证书
         if (trustText.trim().startsWith("-----BEGIN")) {
             List<Object> objs = X509Toolbox.parsePemObjects(trustText);
@@ -732,24 +770,29 @@ public class ActionCert implements ActionListener {
 
     private X509Certificate pickLeaf(List<X509Certificate> certs) {
         for (X509Certificate c : certs) {
-            if (c.getBasicConstraints() == -1) return c;
+            if (c.getBasicConstraints() == -1)
+                return c;
         }
         return certs.get(0);
     }
 
     private static String normalizeDn(String subjectInput) {
         String s = subjectInput == null ? "" : subjectInput.trim();
-        if (s.isEmpty()) return "CN=Test";
+        if (s.isEmpty())
+            return "CN=Test";
         // 用户可能输入：example.com（当作 CN）；也可能输入：CN=xxx,O=...（完整 DN）
-        if (s.contains("=")) return s;
+        if (s.contains("="))
+            return s;
         return "CN=" + s;
     }
 
     private static char[] promptPassword(String title) {
         try {
             javax.swing.JPasswordField pf = new javax.swing.JPasswordField();
-            int ok = javax.swing.JOptionPane.showConfirmDialog(Boot.frame, pf, title, javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
-            if (ok != javax.swing.JOptionPane.OK_OPTION) return null;
+            int ok = javax.swing.JOptionPane.showConfirmDialog(Boot.frame, pf, title,
+                    javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+            if (ok != javax.swing.JOptionPane.OK_OPTION)
+                return null;
             return pf.getPassword();
         } catch (Exception ignored) {
             return null;

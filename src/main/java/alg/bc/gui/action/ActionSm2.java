@@ -120,6 +120,9 @@ public class ActionSm2 implements ActionListener {
             byte[] prvBytes = Validate.requireSm2PrivateKey(prvKey, prvKeyEncode, "私钥");
             byte[] dataBytes = Validate.requireBytes(data, dataEncode, "待签名数据");
             byte[] ret = SM2.sign(prvBytes, dataBytes);
+            if (tabSm2.getSignForm().getSignEncodeAsn1().isSelected()) {
+                ret = SM2.rsToAns1(ret);
+            }
             String signEncode = tabSm2.getSignForm().getSignTypeComboBox().getSelectedItem().toString();
             tabSm2.getSignForm().getSignTextArea().setText(ByteUtil.bytes2Str(ret, signEncode));
         }catch (Exception e){
@@ -134,10 +137,17 @@ public class ActionSm2 implements ActionListener {
             String dataEncode = tabSm2.getVerifyForm().getDataTypeComboBox().getSelectedItem().toString();
             String sign = tabSm2.getVerifyForm().getSignTextArea().getText();
             String signEncode = tabSm2.getVerifyForm().getSignEncodeComboBox().getSelectedItem().toString();
+            boolean sigAsn1 = tabSm2.getVerifyForm().getSignEncodeAsn1RadioButton().isSelected();
 
             byte[] pubBytes = Validate.requireSm2PublicKey(pubKey, pubKeyEncode, "公钥");
             byte[] dataBytes = Validate.requireBytes(data, dataEncode, "待验签数据");
-            byte[] sigBytes = Validate.requireSm2SignaturePlain(sign, signEncode, "签名值");
+            byte[] sigBytes;
+            if (sigAsn1) {
+                sigBytes = Validate.requireBytes(sign, signEncode, "签名值");
+                sigBytes = SM2.ans1ToRs(sigBytes);
+            } else {
+                sigBytes = Validate.requireSm2SignaturePlain(sign, signEncode, "签名值");
+            }
             boolean ret = SM2.verify(pubBytes, dataBytes, sigBytes);
             CompUtil.showMsg(Boot.frame, "验签结果", ret ? "通过" : "不通过");
         }catch (Exception e){

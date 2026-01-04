@@ -56,9 +56,17 @@ public class IntlCertActions {
     }
 
     public void intRsaCertGenerateKeyPair() throws Exception {
-        int size = (Integer) ui.getIntCertForm().getGenKeySizeComboBox().getSelectedItem();
+        Integer sizeObj = (Integer) ui.getIntCertForm().getGenKeySizeComboBox().getSelectedItem();
+        if (sizeObj == null) {
+            throw new IllegalArgumentException("KeySize 未选择，无法生成密钥对");
+        }
+        Object encObj = ui.getIntCertForm().getGenKeyEncodeComboBox().getSelectedItem();
+        if (encObj == null) {
+            throw new IllegalArgumentException("密钥编码未选择，无法生成密钥对");
+        }
+        int size = sizeObj;
         KeyPair kp = Rsa.generateKeyPair(size);
-        String enc = ui.getIntCertForm().getGenKeyEncodeComboBox().getSelectedItem().toString();
+        String enc = encObj.toString();
         ui.getIntCertForm().getGenPubKeyTextArea().setText(ByteUtil.bytes2Str(kp.getPublic().getEncoded(), enc));
         ui.getIntCertForm().getGenPrvKeyTextArea().setText(ByteUtil.bytes2Str(kp.getPrivate().getEncoded(), enc));
         ui.getIntCertForm().getGenResultTextArea().setText("已生成 RSA KeyPair（公钥X.509 / 私钥PKCS#8）。\n");

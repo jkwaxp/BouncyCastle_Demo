@@ -26,40 +26,66 @@
             <border type="none"/>
             <children>
               <component id="l0" class="javax.swing.JLabel">
-                <constraints><grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="KeySize："/></properties>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="KeySize："/>
+                </properties>
               </component>
               <component id="ks" class="javax.swing.JComboBox" binding="genKeySizeComboBox">
-                <constraints><grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
               </component>
               <component id="ke" class="javax.swing.JComboBox" binding="genKeyEncodeComboBox">
-                <constraints><grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
               </component>
               <component id="gkp" class="javax.swing.JButton" binding="genKeyPairButton">
-                <constraints><grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="生成RSA密钥对"/></properties>
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="生成RSA密钥对"/>
+                </properties>
               </component>
               <component id="subjL" class="javax.swing.JLabel">
-                <constraints><grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="Subject："/></properties>
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Subject："/>
+                </properties>
               </component>
               <component id="subj" class="javax.swing.JTextField" binding="genSubjectTextField">
-                <constraints><grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="7" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="7" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
               </component>
               <component id="daysL" class="javax.swing.JLabel">
-                <constraints><grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="有效天数："/></properties>
-              </component>
-              <component id="days" class="javax.swing.JTextField" binding="genDaysTextField">
-                <constraints><grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="有效天数："/>
+                </properties>
               </component>
               <component id="pubL" class="javax.swing.JLabel">
-                <constraints><grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="公钥(X.509)："/></properties>
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="公钥(X.509)："/>
+                </properties>
               </component>
               <scrollpane id="pubS">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="2" column="1" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="500" height="110"/>
                   </grid>
                 </constraints>
@@ -76,12 +102,16 @@
                 </children>
               </scrollpane>
               <component id="prvL" class="javax.swing.JLabel">
-                <constraints><grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="私钥(PKCS#8)："/></properties>
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="私钥(PKCS#8)："/>
+                </properties>
               </component>
               <scrollpane id="prvS">
                 <constraints>
-                  <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="3" column="1" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="500" height="110"/>
                   </grid>
                 </constraints>
@@ -98,20 +128,32 @@
                 </children>
               </scrollpane>
               <component id="csr" class="javax.swing.JButton" binding="genCsrButton">
-                <constraints><grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="生成CSR"/></properties>
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="生成CSR"/>
+                </properties>
               </component>
               <component id="self" class="javax.swing.JButton" binding="genSelfSignedButton">
-                <constraints><grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="生成自签证书"/></properties>
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="生成自签证书"/>
+                </properties>
               </component>
               <component id="outL" class="javax.swing.JLabel">
-                <constraints><grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="输出(PEM/信息)："/></properties>
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="输出(PEM/信息)："/>
+                </properties>
               </component>
               <scrollpane id="outS">
                 <constraints>
-                  <grid row="5" column="1" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="5" column="1" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="500" height="160"/>
                   </grid>
                 </constraints>
@@ -127,10 +169,19 @@
                   </component>
                 </children>
               </scrollpane>
-              <vspacer id="spg"><constraints><grid row="6" column="0" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/></constraints></vspacer>
+              <vspacer id="spg">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="days" class="javax.swing.JTextField" binding="genDaysTextField">
+                <constraints>
+                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
             </children>
           </grid>
-
           <grid id="view" layout-manager="GridLayoutManager" row-count="8" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="10" left="10" bottom="10" right="10"/>
             <constraints>
@@ -140,8 +191,12 @@
             <border type="none"/>
             <children>
               <component id="inL" class="javax.swing.JLabel">
-                <constraints><grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints>
-                <properties><text value="证书/CSR/PKCS7/PKCS12："/></properties>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="证书/CSR/PKCS7/PKCS12："/>
+                </properties>
               </component>
               <scrollpane id="inS">
                 <constraints>
@@ -161,29 +216,44 @@
                   </component>
                 </children>
               </scrollpane>
-              <component id="pBtn" class="javax.swing.JButton" binding="parseButton"><constraints><grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/></constraints><properties><text value="解析"/></properties></component>
-              <component id="lBtn" class="javax.swing.JButton" binding="loadFileButton"><constraints><grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/></constraints><properties><text value="加载文件"/></properties></component>
-              <component id="rBtn" class="javax.swing.JButton" binding="resetButton"><constraints><grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/></constraints><properties><text value="重置"/></properties></component>
-
-              <component id="toolPanel" class="javax.swing.JPanel" binding="toolPanel">
-                <constraints><grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="toPem" class="javax.swing.JButton" binding="toPemButton"><constraints/><properties><text value="转换为PEM"/></properties></component>
-                  <component id="toB64" class="javax.swing.JButton" binding="toDerBase64Button"><constraints/><properties><text value="DER(Base64)"/></properties></component>
-                  <component id="toHex" class="javax.swing.JButton" binding="toDerHexButton"><constraints/><properties><text value="DER(HEX)"/></properties></component>
-                  <component id="split" class="javax.swing.JButton" binding="splitPemButton"><constraints/><properties><text value="拆分PEM"/></properties></component>
-                  <component id="pwdL" class="javax.swing.JLabel"><constraints/><properties><text value="P12口令："/></properties></component>
-                  <component id="pwd" class="javax.swing.JPasswordField" binding="p12PasswordField"><constraints/><properties><columns value="10"/></properties></component>
-                  <component id="verify" class="javax.swing.JButton" binding="verifyChainButton"><constraints/><properties><text value="验证链"/></properties></component>
-                  <component id="save" class="javax.swing.JButton" binding="saveInfoButton"><constraints/><properties><text value="保存输出"/></properties></component>
-                  <component id="build" class="javax.swing.JButton" binding="buildChainButton"><constraints/><properties><text value="构建链"/></properties></component>
-                  <component id="expPem" class="javax.swing.JButton" binding="exportPemButton"><constraints/><properties><text value="导出PEM"/></properties></component>
-                  <component id="expDer" class="javax.swing.JButton" binding="exportDerButton"><constraints/><properties><text value="导出DER"/></properties></component>
-                </children>
+              <component id="pBtn" class="javax.swing.JButton" binding="parseButton">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="解析"/>
+                </properties>
               </component>
-              <component id="trustL" class="javax.swing.JLabel"><constraints><grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints><properties><text value="信任根/中间证书(PEM)："/></properties></component>
+              <component id="lBtn" class="javax.swing.JButton" binding="loadFileButton">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="加载文件"/>
+                </properties>
+              </component>
+              <component id="rBtn" class="javax.swing.JButton" binding="resetButton">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="重置"/>
+                </properties>
+              </component>
+              <component id="toolPanel" class="javax.swing.JPanel" binding="toolPanel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="trustL" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="信任根/中间证书(PEM)："/>
+                </properties>
+              </component>
               <scrollpane id="trustS">
                 <constraints>
                   <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -202,7 +272,14 @@
                   </component>
                 </children>
               </scrollpane>
-              <component id="infoL" class="javax.swing.JLabel"><constraints><grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/></constraints><properties><text value="信息："/></properties></component>
+              <component id="infoL" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="信息："/>
+                </properties>
+              </component>
               <scrollpane id="infoS">
                 <constraints>
                   <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -221,7 +298,11 @@
                   </component>
                 </children>
               </scrollpane>
-              <vspacer id="spv"><constraints><grid row="7" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/></constraints></vspacer>
+              <vspacer id="spv">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
             </children>
           </grid>
         </children>
@@ -229,5 +310,3 @@
     </children>
   </grid>
 </form>
-
-

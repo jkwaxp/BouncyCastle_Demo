@@ -2,6 +2,7 @@ package alg.bc.gui.view.viewSm2;
 
 import alg.bc.gui.view.TabSm2;
 import alg.bc.gui.util.EncodeSwitchBinder;
+import alg.bc.gui.util.Sm2SignatureFormatBinder;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import lombok.Data;
@@ -14,6 +15,8 @@ public class ViewSm2Verify {
     private JPanel sm2VerifyPanel;
     private JTextArea pubKeyTextArea;
     private JTextArea signTextArea;
+    private JRadioButton signEncodeRawRadioButton;
+    private JRadioButton signEncodeAsn1RadioButton;
     private JComboBox pubkeyEncodeComboBox;
     private JComboBox signEncodeComboBox;
     private JButton verifyButton;
@@ -30,6 +33,7 @@ public class ViewSm2Verify {
         EncodeSwitchBinder.bind(pubkeyEncodeComboBox, pubKeyTextArea, "公钥");
         EncodeSwitchBinder.bind(dataTypeComboBox, dataTextArea, "数据");
         EncodeSwitchBinder.bind(signEncodeComboBox, signTextArea, "签名值");
+        Sm2SignatureFormatBinder.bind(signEncodeRawRadioButton, signEncodeAsn1RadioButton, signEncodeComboBox, signTextArea, "签名值");
     }
 
     {
@@ -48,7 +52,7 @@ public class ViewSm2Verify {
      */
     private void $$$setupUI$$$() {
         sm2VerifyPanel = new JPanel();
-        sm2VerifyPanel.setLayout(new GridLayoutManager(4, 4, new Insets(0, 0, 0, 0), -1, -1));
+        sm2VerifyPanel.setLayout(new GridLayoutManager(5, 4, new Insets(0, 0, 0, 0), -1, -1));
         final JLabel label1 = new JLabel();
         label1.setText("公钥：");
         sm2VerifyPanel.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -56,11 +60,21 @@ public class ViewSm2Verify {
         pubKeyTextArea.setLineWrap(true);
         sm2VerifyPanel.add(pubKeyTextArea, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(400, 50), null, 0, false));
         final JLabel label2 = new JLabel();
-        label2.setText("签名值：");
+        label2.setText("签名编码：");
         sm2VerifyPanel.add(label2, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        signEncodeRawRadioButton = new JRadioButton();
+        signEncodeRawRadioButton.setSelected(true);
+        signEncodeRawRadioButton.setText("RAW");
+        sm2VerifyPanel.add(signEncodeRawRadioButton, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        signEncodeAsn1RadioButton = new JRadioButton();
+        signEncodeAsn1RadioButton.setText("ASN1");
+        sm2VerifyPanel.add(signEncodeAsn1RadioButton, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label3 = new JLabel();
+        label3.setText("签名值：");
+        sm2VerifyPanel.add(label3, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         signTextArea = new JTextArea();
         signTextArea.setLineWrap(true);
-        sm2VerifyPanel.add(signTextArea, new GridConstraints(2, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(400, 50), null, 0, false));
+        sm2VerifyPanel.add(signTextArea, new GridConstraints(3, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(400, 50), null, 0, false));
         pubkeyEncodeComboBox = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         defaultComboBoxModel1.addElement("HEX");
@@ -72,16 +86,16 @@ public class ViewSm2Verify {
         defaultComboBoxModel2.addElement("HEX");
         defaultComboBoxModel2.addElement("BASE64");
         signEncodeComboBox.setModel(defaultComboBoxModel2);
-        sm2VerifyPanel.add(signEncodeComboBox, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        sm2VerifyPanel.add(signEncodeComboBox, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         verifyButton = new JButton();
         verifyButton.setText("验签");
-        sm2VerifyPanel.add(verifyButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        sm2VerifyPanel.add(verifyButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         resetButton = new JButton();
         resetButton.setText("重置");
-        sm2VerifyPanel.add(resetButton, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label3 = new JLabel();
-        label3.setText("数据：");
-        sm2VerifyPanel.add(label3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        sm2VerifyPanel.add(resetButton, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label4 = new JLabel();
+        label4.setText("数据：");
+        sm2VerifyPanel.add(label4, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         dataTextArea = new JTextArea();
         dataTextArea.setLineWrap(true);
         sm2VerifyPanel.add(dataTextArea, new GridConstraints(1, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(400, 50), null, 0, false));
