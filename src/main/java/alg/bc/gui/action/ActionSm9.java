@@ -3,6 +3,7 @@ package alg.bc.gui.action;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Logger;
 import alg.bc.gui.util.Validate;
 import alg.bc.gui.view.TabSm9;
 import alg.bc.nation.sm9.Sm9;
@@ -26,10 +27,7 @@ public class ActionSm9 implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        try {
-            System.err.println("[SM9] action cmd=" + cmd);
-        } catch (Throwable ignored) {
-        }
+        Logger.logAction(cmd, "ActionSm9");
         try {
             switch (cmd) {
                 case "sm9GenEncMaster":
@@ -59,12 +57,9 @@ public class ActionSm9 implements ActionListener {
                 default:
                     break;
             }
-        } catch (Throwable ex) {
-            String msg = ex.getMessage();
-            if (msg == null || msg.trim().isEmpty()) {
-                msg = ex.getClass().getName();
-            }
-            CompUtil.showErr(Boot.frame, "SM9 操作失败: " + msg);
+        } catch (Exception ex) {
+            Logger.logActionError(cmd, "ActionSm9", ex);
+            throw ex;
         }
     }
 

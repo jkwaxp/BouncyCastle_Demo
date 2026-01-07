@@ -3,6 +3,7 @@ package alg.bc.gui.action;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Logger;
 import alg.bc.gui.util.Validate;
 import alg.bc.gui.view.TabZuc;
 import alg.bc.nation.Zuc;
@@ -21,24 +22,30 @@ public class ActionZuc implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        switch (cmd) {
-            case "generateZucKey":
-                generateZucKey();
-                break;
-            case "generateZucIv":
-                generateZucIv();
-                break;
-            case "zucCipher":
-                zucCipher();
-                break;
-            case "zucMac":
-                zucMac();
-                break;
-            case "resetForm":
-                resetForm();
-                break;
-            default:
-                break;
+        Logger.logAction(cmd, "ActionZuc");
+        try {
+            switch (cmd) {
+                case "generateZucKey":
+                    generateZucKey();
+                    break;
+                case "generateZucIv":
+                    generateZucIv();
+                    break;
+                case "zucCipher":
+                    zucCipher();
+                    break;
+                case "zucMac":
+                    zucMac();
+                    break;
+                case "resetForm":
+                    resetForm();
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.logActionError(cmd, "ActionZuc", ex);
+            throw ex;
         }
     }
 

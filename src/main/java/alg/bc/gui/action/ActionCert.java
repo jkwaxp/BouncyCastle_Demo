@@ -2,6 +2,7 @@ package alg.bc.gui.action;
 
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Logger;
 import alg.bc.gui.util.Validate;
 import alg.bc.gui.util.X509Toolbox;
 import alg.bc.gui.view.TabCert;
@@ -59,51 +60,58 @@ public class ActionCert implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        switch (cmd) {
-            case "generateCsr":
-                generateCsr();
-                break;
-            case "generateSelfSigned":
-                generateSelfSigned();
-                break;
-            case "parseCert":
-                parseCert();
-                break;
-            case "loadCertFile":
-                loadCertFile();
-                break;
-            case "certToPem":
-                certToPem();
-                break;
-            case "certToDerBase64":
-                certToDerBase64();
-                break;
-            case "certToDerHex":
-                certToDerHex();
-                break;
-            case "certSplitPem":
-                certSplitPem();
-                break;
-            case "certVerifyChain":
-                certVerifyChain();
-                break;
-            case "certSaveInfo":
-                certSaveInfo();
-                break;
-            case "certExportPemFile":
-                certExportPemFile();
-                break;
-            case "certExportDerFile":
-                certExportDerFile();
-                break;
-            case "certBuildChain":
-                certBuildChain();
-                break;
-            case "resetForm":
-                resetForm();
-                break;
-            default:
-                break;
+        Logger.logAction(cmd, "ActionCert");
+        try {
+            switch (cmd) {
+                case "generateCsr":
+                    generateCsr();
+                    break;
+                case "generateSelfSigned":
+                    generateSelfSigned();
+                    break;
+                case "parseCert":
+                    parseCert();
+                    break;
+                case "loadCertFile":
+                    loadCertFile();
+                    break;
+                case "certToPem":
+                    certToPem();
+                    break;
+                case "certToDerBase64":
+                    certToDerBase64();
+                    break;
+                case "certToDerHex":
+                    certToDerHex();
+                    break;
+                case "certSplitPem":
+                    certSplitPem();
+                    break;
+                case "certVerifyChain":
+                    certVerifyChain();
+                    break;
+                case "certSaveInfo":
+                    certSaveInfo();
+                    break;
+                case "certExportPemFile":
+                    certExportPemFile();
+                    break;
+                case "certExportDerFile":
+                    certExportDerFile();
+                    break;
+                case "certBuildChain":
+                    certBuildChain();
+                    break;
+                case "resetForm":
+                    resetForm();
+                    break;
+                default:
+                    Logger.debug("未知的命令: " + cmd);
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.logActionError(cmd, "ActionCert", ex);
+            throw ex;
         }
     }
 

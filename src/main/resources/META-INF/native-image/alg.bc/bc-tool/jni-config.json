@@ -36,6 +36,10 @@
   "fields":[{"name":"title"}, {"name":"undecorated"}]
 },
 {
+  "name":"java.awt.FileDialog",
+  "fields":[{"name":"dir"}, {"name":"file"}, {"name":"filter"}, {"name":"mode"}]
+},
+{
   "name":"java.awt.Dimension",
   "fields":[{"name":"height"}, {"name":"width"}],
   "methods":[{"name":"<init>","parameterTypes":["int","int"] }]
@@ -298,6 +302,10 @@
   "methods":[{"name":"nativeUpdateCursor","parameterTypes":["java.awt.Component"] }]
 },
 {
+  "name":"sun.awt.windows.WInputMethod",
+  "methods":[{"name":"inquireCandidatePosition","parameterTypes":[] }]
+},
+{
   "name":"sun.awt.windows.WObjectPeer",
   "fields":[{"name":"createError"}, {"name":"destroyed"}, {"name":"pData"}, {"name":"target"}],
   "methods":[{"name":"getPeerForTarget","parameterTypes":["java.lang.Object"] }]
@@ -481,5 +489,31 @@
 {
   "name":"sun.java2d.windows.WindowsFlags",
   "fields":[{"name":"d3dEnabled"}, {"name":"d3dSet"}, {"name":"offscreenSharingEnabled"}, {"name":"setHighDPIAware"}]
+},
+{
+  "name":"sun.awt.windows.WFileDialogPeer",
+  "fields":[{"name":"parent"}, {"name":"target"}, {"name":"fileFilter"}],
+  "methods":[
+    {"name":"checkFilenameFilter","parameterTypes":["java.lang.String"]},
+    {"name":"handleCancel","parameterTypes":[]},
+    {"name":"handleSelected","parameterTypes":["char[]"]},
+    {"name":"isMultipleMode","parameterTypes":[]},
+    {"name":"setHWnd","parameterTypes":["long"]}
+  ]
+},
+{
+  "name":"sun.awt.windows.WDialogPeer",
+  "fields":[{"name":"hwnd"}]
+},
+{
+  "name":"alg.bc.nation.sm9.Sm9Native",
+  "methods":[
+    {"name":"kgcGenerateMasterKeyPair","parameterTypes":["int"]},
+    {"name":"kgcDeriveUserPrivateKey","parameterTypes":["int","[B","[B"]},
+    {"name":"encrypt","parameterTypes":["[B","[B","[B"]},
+    {"name":"decrypt","parameterTypes":["[B","[B","[B"]},
+    {"name":"sign","parameterTypes":["[B","[B","[B"]},
+    {"name":"verify","parameterTypes":["[B","[B","[B","[B"]}
+  ]
 }
 ]

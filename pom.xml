@@ -89,7 +89,7 @@
     </build>
 
     <profiles>
-        <!-- 建议使用 LTS（17/21）来构建 native-image：Java 25 的 Swing/AWT 字体链路目前非常不稳定 -->
+        <!-- 使用 graalvm-jdk-25 来构建 native-image -->
         <profile>
             <id>release.native.lts</id>
             <build>
@@ -128,6 +128,12 @@
                         <configuration>
                             <mainClass>alg.bc.gui.Boot</mainClass>
                             <imageName>bc-tool</imageName>
+                            <buildArgs>
+                                <buildArg>--future-defaults=run-time-initialize-security-providers</buildArg>
+                                <buildArg>-Djava.security.properties=src/main/resources/java.security.override</buildArg>
+                                <buildArg>--enable-url-protocols=https</buildArg>
+                                <buildArg>-H:+AllowIncompleteClasspath</buildArg>
+                            </buildArgs>
                         </configuration>
                         <executions>
                             <execution>
@@ -158,6 +164,9 @@
                                         <copy todir="${project.build.directory}/bc-tool" overwrite="true">
                                             <fileset dir="${project.build.directory}">
                                                 <include name="bc-tool.exe"/>
+                                                <include name="*.dll"/>
+                                            </fileset>
+                                            <fileset dir="${project.basedir}/lib">
                                                 <include name="*.dll"/>
                                             </fileset>
                                         </copy>

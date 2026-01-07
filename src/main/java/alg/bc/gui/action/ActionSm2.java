@@ -3,6 +3,7 @@ package alg.bc.gui.action;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Logger;
 import alg.bc.gui.util.Validate;
 import alg.bc.gui.view.TabSm2;
 import alg.bc.nation.SM2;
@@ -24,32 +25,38 @@ public class ActionSm2 implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        switch (cmd){
-            case "generateSm2Key":
-                generateSm2Key();
-                break;
-            case "sm2Encrypt":
-                sm2Encrypt();
-                break;
-            case "sm2Decrypt":
-                sm2Decrypt();
-                break;
-            case "sm2Sign":
-                sm2Sign();
-                break;
-            case "sm2Verify":
-                sm2Verify();
-                break;
-            case "sm2Compress":
-                sm2Compress();
-                break;
-            case "sm2Uncompress":
-                sm2Uncompress();
-                break;
-            case "resetForm":
-                resetForm();
-            default:
-                break;
+        Logger.logAction(cmd, "ActionSm2");
+        try {
+            switch (cmd){
+                case "generateSm2Key":
+                    generateSm2Key();
+                    break;
+                case "sm2Encrypt":
+                    sm2Encrypt();
+                    break;
+                case "sm2Decrypt":
+                    sm2Decrypt();
+                    break;
+                case "sm2Sign":
+                    sm2Sign();
+                    break;
+                case "sm2Verify":
+                    sm2Verify();
+                    break;
+                case "sm2Compress":
+                    sm2Compress();
+                    break;
+                case "sm2Uncompress":
+                    sm2Uncompress();
+                    break;
+                case "resetForm":
+                    resetForm();
+                default:
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.logActionError(cmd, "ActionSm2", ex);
+            throw ex;
         }
     }
 

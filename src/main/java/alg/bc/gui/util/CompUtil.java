@@ -76,10 +76,12 @@ public class CompUtil {
         JOptionPane.showMessageDialog(win, content, title == null ? "INFO" : title, JOptionPane.PLAIN_MESSAGE);
     }
     public static void showErr(JFrame win, String content){
+        Logger.error(content);
         JOptionPane.showMessageDialog(win, content, "ERROR", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void showErr(JFrame win, String title, String content){
+        Logger.error(content);
         JOptionPane.showMessageDialog(win, content, title == null ? "ERROR" : title, JOptionPane.ERROR_MESSAGE);
     }
 

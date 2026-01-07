@@ -21,6 +21,84 @@
   "allDeclaredConstructors":true
 },
 {
+  "name":"alg.bc.gui.action.ActionSm2",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.ActionSm3",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.ActionSm4",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.ActionZuc",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.ActionSm9",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.ActionCert",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.ActionInternational",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.international.IntlAesActions",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.international.IntlDes3Actions",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.international.IntlRsaActions",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.international.IntlHashActions",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.international.IntlMacActions",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.action.international.IntlCertActions",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
   "name":"alg.bc.gui.view.TabCert",
   "allDeclaredFields":true,
   "allDeclaredMethods":true,
@@ -136,6 +214,66 @@
 },
 {
   "name":"alg.bc.gui.view.viewZuc.ViewZucMac",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.TabSm9",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.viewSm9.ViewSm9Kgc",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.viewSm9.ViewSm9Sign",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.viewSm9.ViewSm9Cipher",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.viewInternational.ViewIntAes",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.viewInternational.ViewIntDes3",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.viewInternational.ViewIntRsa",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.viewInternational.ViewIntHash",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.viewInternational.ViewIntMac",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"alg.bc.gui.view.viewInternational.ViewIntCert",
   "allDeclaredFields":true,
   "allDeclaredMethods":true,
   "allDeclaredConstructors":true
@@ -485,7 +623,11 @@
 },
 {
   "name":"javax.swing.plaf.basic.BasicOptionPaneUI",
-  "methods":[{"name":"createUI","parameterTypes":["javax.swing.JComponent"] }]
+  "allDeclaredConstructors":true,
+  "methods":[
+    {"name":"createUI","parameterTypes":["javax.swing.JComponent"]},
+    {"name":"loadActionMap","parameterTypes":["javax.swing.plaf.basic.LazyActionMap"]}
+  ]
 },
 {
   "name":"javax.swing.plaf.basic.BasicPanelUI",
@@ -581,6 +723,12 @@
 {
   "name":"javax.swing.text.DefaultEditorKit",
   "allPublicMethods":true,
+  "allDeclaredConstructors":true
+},
+{
+  "name":"org.bouncycastle.jce.provider.BouncyCastleProvider",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
   "allDeclaredConstructors":true
 },
 {

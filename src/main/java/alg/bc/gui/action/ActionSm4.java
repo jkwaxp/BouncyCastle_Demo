@@ -3,6 +3,7 @@ package alg.bc.gui.action;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Logger;
 import alg.bc.gui.util.Validate;
 import alg.bc.gui.view.TabSm4;
 import alg.bc.nation.SM4;
@@ -21,27 +22,34 @@ public class ActionSm4 implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        switch (cmd) {
-            case "generateSm4Key":
-                generateSm4Key();
-                break;
-            case "generateSm4Iv":
-                generateSm4Iv();
-                break;
-            case "sm4Encrypt":
-                sm4Encrypt();
-                break;
-            case "sm4Decrypt":
-                sm4Decrypt();
-                break;
-            case "sm4Cmac":
-                sm4Cmac();
-                break;
-            case "resetForm":
-                resetForm();
-                break;
-            default:
-                break;
+        Logger.logAction(cmd, "ActionSm4");
+        try {
+            switch (cmd) {
+                case "generateSm4Key":
+                    generateSm4Key();
+                    break;
+                case "generateSm4Iv":
+                    generateSm4Iv();
+                    break;
+                case "sm4Encrypt":
+                    sm4Encrypt();
+                    break;
+                case "sm4Decrypt":
+                    sm4Decrypt();
+                    break;
+                case "sm4Cmac":
+                    sm4Cmac();
+                    break;
+                case "resetForm":
+                    resetForm();
+                    break;
+                default:
+                    Logger.debug("未知的命令: " + cmd);
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.logActionError(cmd, "ActionSm4", ex);
+            throw ex;
         }
     }
 

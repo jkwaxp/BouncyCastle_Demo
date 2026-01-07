@@ -3,6 +3,7 @@ package alg.bc.gui.action;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Logger;
 import alg.bc.gui.util.Validate;
 import alg.bc.gui.view.TabSm3;
 import alg.bc.nation.SM3;
@@ -22,19 +23,25 @@ public class ActionSm3 implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        switch (cmd){
-            case "hash":
-                hash();
-                break;
-            case "hmac":
-                hmac();
-                break;
-            case "chooseFile":
-                chooseFile();
-                break;
-            case "reset":
-                reset();
-                break;
+        Logger.logAction(cmd, "ActionSm3");
+        try {
+            switch (cmd){
+                case "hash":
+                    hash();
+                    break;
+                case "hmac":
+                    hmac();
+                    break;
+                case "chooseFile":
+                    chooseFile();
+                    break;
+                case "reset":
+                    reset();
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.logActionError(cmd, "ActionSm3", ex);
+            throw ex;
         }
     }
 

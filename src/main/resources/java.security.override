@@ -1,0 +1,2 @@
+# 在运行时添加BouncyCastle Provider
+security.provider.10=org.bouncycastle.jce.provider.BouncyCastleProvider

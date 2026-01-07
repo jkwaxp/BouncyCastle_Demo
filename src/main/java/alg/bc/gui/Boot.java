@@ -1,8 +1,10 @@
 package alg.bc.gui;
 
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Logger;
 import alg.bc.gui.view.MainWindow;
 import alg.bc.nation.sm9.Sm9JniLoader;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -15,6 +17,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.security.Security;
 
 public class Boot {
     public static JFrame frame = null;
@@ -29,6 +32,23 @@ public class Boot {
     };
 
     public static void main(String[] args) {
+        // 必须在最开始注册BouncyCastle Provider
+        Security.addProvider(new BouncyCastleProvider());
+
+        // 设置全局异常处理器，捕获所有未处理的异常
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Logger.error("未捕获的异常 (线程: " + t.getName() + ")", e);
+            }
+        });
+
+        // 设置AWT事件线程的异常处理
+        System.setProperty("sun.awt.exception.handler", "alg.bc.gui.util.AwtExceptionHandler");
+
+        Logger.info("应用程序启动...");
+        Logger.info("Native Image模式: " + isNativeImage());
+
         // Native-image 下需要 java.home 才能找到 fontconfig.*（否则会直接抛错）
         if (isNativeImage()) {
             setupNativeImageUiScaleAndDpi();

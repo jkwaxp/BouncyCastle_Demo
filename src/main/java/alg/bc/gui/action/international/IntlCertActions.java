@@ -3,6 +3,7 @@ package alg.bc.gui.action.international;
 import alg.bc.gui.Boot;
 import alg.bc.gui.util.ByteUtil;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Logger;
 import alg.bc.gui.util.Validate;
 import alg.bc.gui.util.X509Toolbox;
 import alg.bc.internation.Rsa;
@@ -56,24 +57,31 @@ public class IntlCertActions {
     }
 
     public void intRsaCertGenerateKeyPair() throws Exception {
-        Integer sizeObj = (Integer) ui.getIntCertForm().getGenKeySizeComboBox().getSelectedItem();
-        if (sizeObj == null) {
-            throw new IllegalArgumentException("KeySize 未选择，无法生成密钥对");
+        try {
+            Logger.logAction("intRsaCertGenerateKeyPair", "IntlCertActions");
+            Integer sizeObj = (Integer) ui.getIntCertForm().getGenKeySizeComboBox().getSelectedItem();
+            if (sizeObj == null) {
+                throw new IllegalArgumentException("KeySize 未选择，无法生成密钥对");
+            }
+            Object encObj = ui.getIntCertForm().getGenKeyEncodeComboBox().getSelectedItem();
+            if (encObj == null) {
+                throw new IllegalArgumentException("密钥编码未选择，无法生成密钥对");
+            }
+            int size = sizeObj;
+            KeyPair kp = Rsa.generateKeyPair(size);
+            String enc = encObj.toString();
+            ui.getIntCertForm().getGenPubKeyTextArea().setText(ByteUtil.bytes2Str(kp.getPublic().getEncoded(), enc));
+            ui.getIntCertForm().getGenPrvKeyTextArea().setText(ByteUtil.bytes2Str(kp.getPrivate().getEncoded(), enc));
+            ui.getIntCertForm().getGenResultTextArea().setText("已生成 RSA KeyPair（公钥X.509 / 私钥PKCS#8）。\n");
+        } catch (Exception ex) {
+            Logger.logActionError("intRsaCertGenerateKeyPair", "IntlCertActions", ex);
+            throw ex;
         }
-        Object encObj = ui.getIntCertForm().getGenKeyEncodeComboBox().getSelectedItem();
-        if (encObj == null) {
-            throw new IllegalArgumentException("密钥编码未选择，无法生成密钥对");
-        }
-        int size = sizeObj;
-        KeyPair kp = Rsa.generateKeyPair(size);
-        String enc = encObj.toString();
-        ui.getIntCertForm().getGenPubKeyTextArea().setText(ByteUtil.bytes2Str(kp.getPublic().getEncoded(), enc));
-        ui.getIntCertForm().getGenPrvKeyTextArea().setText(ByteUtil.bytes2Str(kp.getPrivate().getEncoded(), enc));
-        ui.getIntCertForm().getGenResultTextArea().setText("已生成 RSA KeyPair（公钥X.509 / 私钥PKCS#8）。\n");
     }
 
     public void intRsaCertGenerateCsr() {
         try {
+            Logger.logAction("intRsaCertGenerateCsr", "IntlCertActions");
             String subject = Validate.requireNotBlank(ui.getIntCertForm().getGenSubjectTextField().getText(), "证书Subject");
             String enc = ui.getIntCertForm().getGenKeyEncodeComboBox().getSelectedItem().toString();
             byte[] pubBytes = Validate.requireBytes(ui.getIntCertForm().getGenPubKeyTextArea().getText(), enc, "公钥");
@@ -92,12 +100,14 @@ public class IntlCertActions {
             String csrPem = X509Toolbox.toPem(csr);
             ui.getIntCertForm().getGenResultTextArea().setText(csrPem + "\n" + X509Toolbox.describeCsr(csr));
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertGenerateCsr", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "生成CSR失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertGenerateSelfSigned() {
         try {
+            Logger.logAction("intRsaCertGenerateSelfSigned", "IntlCertActions");
             String subject = Validate.requireNotBlank(ui.getIntCertForm().getGenSubjectTextField().getText(), "证书Subject");
             int days;
             try {
@@ -148,12 +158,14 @@ public class IntlCertActions {
                             X509Toolbox.describeCertificate(cert)
             );
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertGenerateSelfSigned", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "生成自签证书失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertLoadFile() {
         try {
+            Logger.logAction("intRsaCertLoadFile", "IntlCertActions");
             String filePath = CompUtil.chooseFile(Boot.frame, "选择证书文件");
             if (filePath == null || filePath.isEmpty()) return;
             byte[] bytes = Files.readAllBytes(Paths.get(filePath));
@@ -166,15 +178,17 @@ public class IntlCertActions {
             } else {
                 String b64 = java.util.Base64.getMimeEncoder(64, new byte[]{'\n'}).encodeToString(bytes);
                 ui.getIntCertForm().getCertInputTextArea().setText(b64);
-                CompUtil.showMsg(Boot.frame, "提示", "已加载二进制文件，已以 BASE64 形式显示（点击“解析”即可自动识别）");
+                CompUtil.showMsg(Boot.frame, "提示", "已加载二进制文件，已以 BASE64 形式显示（点击\"解析\"即可自动识别）");
             }
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertLoadFile", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "加载证书文件失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertParse() {
         try {
+            Logger.logAction("intRsaCertParse", "IntlCertActions");
             String text = ui.getIntCertForm().getCertInputTextArea().getText();
             byte[] bytes = null;
             boolean hasText = text != null && !text.trim().isEmpty();
@@ -278,21 +292,29 @@ public class IntlCertActions {
 
             ui.getIntCertForm().getCertInfoTextArea().setText(sb.toString());
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertParse", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "解析证书失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertReset() {
-        ui.getIntCertForm().getCertInputTextArea().setText("");
-        ui.getIntCertForm().getCertInfoTextArea().setText("");
-        ui.getIntCertForm().getTrustPemTextArea().setText("");
-        ui.getIntCertForm().getP12PasswordField().setText("");
-        lastLoadedBytes = null;
-        lastLoadedPath = null;
+        try {
+            Logger.logAction("intRsaCertReset", "IntlCertActions");
+            ui.getIntCertForm().getCertInputTextArea().setText("");
+            ui.getIntCertForm().getCertInfoTextArea().setText("");
+            ui.getIntCertForm().getTrustPemTextArea().setText("");
+            ui.getIntCertForm().getP12PasswordField().setText("");
+            lastLoadedBytes = null;
+            lastLoadedPath = null;
+        } catch (Exception ex) {
+            Logger.logActionError("intRsaCertReset", "IntlCertActions", ex);
+            throw ex;
+        }
     }
 
     public void intRsaCertToPem() {
         try {
+            Logger.logAction("intRsaCertToPem", "IntlCertActions");
             ParsedInput in = parseInputBestEffort();
             if (in.certs != null && !in.certs.isEmpty()) {
                 StringBuilder out = new StringBuilder();
@@ -308,35 +330,41 @@ public class IntlCertActions {
             }
             throw new IllegalArgumentException("未识别到证书/CSR，无法转换为 PEM");
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertToPem", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "转换失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertToDerBase64() {
         try {
+            Logger.logAction("intRsaCertToDerBase64", "IntlCertActions");
             ParsedInput in = parseInputBestEffort();
             byte[] der = pickFirstDer(in);
             String b64 = java.util.Base64.getMimeEncoder(64, new byte[]{'\n'}).encodeToString(der);
             ui.getIntCertForm().getCertInputTextArea().setText(b64);
             CompUtil.showMsg(Boot.frame, "已输出 DER(Base64)");
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertToDerBase64", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "转换失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertToDerHex() {
         try {
+            Logger.logAction("intRsaCertToDerHex", "IntlCertActions");
             ParsedInput in = parseInputBestEffort();
             byte[] der = pickFirstDer(in);
             ui.getIntCertForm().getCertInputTextArea().setText(org.bouncycastle.util.encoders.Hex.toHexString(der));
             CompUtil.showMsg(Boot.frame, "已输出 DER(HEX)");
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertToDerHex", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "转换失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertSplitPem() {
         try {
+            Logger.logAction("intRsaCertSplitPem", "IntlCertActions");
             String text = ui.getIntCertForm().getCertInputTextArea().getText();
             if (text == null || text.trim().isEmpty()) throw new IllegalArgumentException("输入不能为空");
             if (!text.trim().startsWith("-----BEGIN")) {
@@ -363,12 +391,14 @@ public class IntlCertActions {
             ui.getIntCertForm().getCertInputTextArea().setText(out.toString());
             CompUtil.showMsg(Boot.frame, "已拆分 PEM（仅提取 CERTIFICATE 块）");
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertSplitPem", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "拆分失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertVerifyChain() {
         try {
+            Logger.logAction("intRsaCertVerifyChain", "IntlCertActions");
             ParsedInput in = parseInputBestEffort();
             if (in.certs == null || in.certs.isEmpty()) {
                 throw new IllegalArgumentException("请先在输入区提供待验证的证书（leaf 或链）");
@@ -408,12 +438,14 @@ public class IntlCertActions {
             ui.getIntCertForm().getCertInfoTextArea().setText(sb.toString());
             CompUtil.showMsg(Boot.frame, "链验证通过");
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertVerifyChain", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "链验证失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertSaveInfo() {
         try {
+            Logger.logAction("intRsaCertSaveInfo", "IntlCertActions");
             String path = CompUtil.saveFile(Boot.frame, "保存输出");
             if (path == null || path.trim().isEmpty()) return;
             String content = ui.getIntCertForm().getCertInfoTextArea().getText();
@@ -421,12 +453,14 @@ public class IntlCertActions {
             Files.write(Paths.get(path), content.getBytes(StandardCharsets.UTF_8));
             CompUtil.showMsg(Boot.frame, "已保存到: " + path);
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertSaveInfo", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "保存失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertExportPemFile() {
         try {
+            Logger.logAction("intRsaCertExportPemFile", "IntlCertActions");
             ParsedInput in = parseInputBestEffort();
             if (in.certs == null || in.certs.isEmpty()) {
                 throw new IllegalArgumentException("未识别到证书（建议先解析/加载文件）");
@@ -438,12 +472,14 @@ public class IntlCertActions {
             Files.write(Paths.get(path), pem.toString().getBytes(StandardCharsets.UTF_8));
             CompUtil.showMsg(Boot.frame, "已导出 PEM 到: " + path);
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertExportPemFile", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "导出失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertExportDerFile() {
         try {
+            Logger.logAction("intRsaCertExportDerFile", "IntlCertActions");
             ParsedInput in = parseInputBestEffort();
             if (in.certs == null || in.certs.isEmpty()) {
                 throw new IllegalArgumentException("未识别到证书（DER 导出仅支持单张证书）");
@@ -454,12 +490,14 @@ public class IntlCertActions {
             Files.write(Paths.get(path), der);
             CompUtil.showMsg(Boot.frame, "已导出 DER 到: " + path);
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertExportDerFile", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "导出失败: " + ex.getMessage());
         }
     }
 
     public void intRsaCertBuildChain() {
         try {
+            Logger.logAction("intRsaCertBuildChain", "IntlCertActions");
             ParsedInput in = parseInputBestEffort();
             if (in.certs == null || in.certs.isEmpty()) {
                 throw new IllegalArgumentException("请先在输入区提供待构建的证书集合（可乱序、多张）");
@@ -484,6 +522,7 @@ public class IntlCertActions {
             ui.getIntCertForm().getCertInfoTextArea().setText(info.toString());
             CompUtil.showMsg(Boot.frame, "已构建并排序证书链（已回填到输入框）");
         } catch (Exception ex) {
+            Logger.logActionError("intRsaCertBuildChain", "IntlCertActions", ex);
             CompUtil.showErr(Boot.frame, "构建链失败: " + ex.getMessage());
         }
     }

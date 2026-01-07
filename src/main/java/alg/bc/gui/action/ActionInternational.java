@@ -10,6 +10,7 @@ import alg.bc.gui.action.international.IntlHashActions;
 import alg.bc.gui.action.international.IntlMacActions;
 import alg.bc.gui.action.international.IntlRsaActions;
 import alg.bc.gui.util.CompUtil;
+import alg.bc.gui.util.Logger;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -77,11 +78,16 @@ public class ActionInternational implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
+        Logger.logAction(cmd, "ActionInternational");
         CommandHandler h = handlers.get(cmd);
-        if (h == null) return;
+        if (h == null) {
+            Logger.debug("未知的命令: " + cmd);
+            return;
+        }
         try {
             h.handle();
         } catch (Exception ex) {
+            Logger.logActionError(cmd, "ActionInternational", ex);
             CompUtil.showErr(Boot.frame, ex.getMessage());
         }
     }
